@@ -1,0 +1,5 @@
+minilibx/
+*.o
+*/*.o
+fdf_chissali
+maps/
