@@ -6,12 +6,12 @@
 #    By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 13:15:18 by ansebast          #+#    #+#              #
-#    Updated: 2024/09/27 16:49:02 by ansebast         ###   ########.fr        #
+#    Updated: 2024/09/28 09:53:19 by ansebast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 LIBSRC = ./libft
 MLXSRC = ./minilibx
 LIBFT = $(LIBSRC)/libft.a

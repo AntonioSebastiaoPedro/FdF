@@ -6,56 +6,37 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/28 06:24:51 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/28 10:57:24 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <string.h>
 
-typedef struct s_data
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}			t_data;
-
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
+	if (x < 0 || x >= 1920 || y < 0 || y >= 1080)
+		return;
 	char	*dst;
-
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
-typedef struct s_point
+t_point	project_point(int x, int y, int z, int color, double scale, int x_offset,
+		int y_offset)
 {
-	int x;
-	int y;
-	int z;
-	int color;
-}				t_point;
+	t_point	proj;
 
-t_point	project_point(int x, int y, int z, int color, int scale, int x_offset, int y_offset)
-{
-	t_point proj;
-	double angle = 0.523599; // 30 graus em radianos
-
-	// Aplicar a escala
+	double angle = 0.5236;
 	x *= scale;
 	y *= scale;
 	z *= scale;
-
-	// Projeção Isométrica
-	proj.x = (x - y) * cos(angle) + x_offset;
-	proj.y = (x + y) * sin(angle) - z + y_offset;
+	proj.x = (x + y) * cos(angle) + x_offset;
+	proj.y = (x - y) * sin(-angle) - z + y_offset;
 	proj.z = z;
 	proj.color = color;
 	return (proj);
 }
-
 
 static void	freearray(char **array, int pos)
 {
@@ -74,6 +55,11 @@ int	**parse_line(char *line, int *width)
 	for (*width = 0; split[*width]; (*width)++)
 		;
 	row = malloc(sizeof(int *) * (*width));
+	if (!row)
+	{
+		perror("Erro ao alocar memória para linha");
+		exit(EXIT_FAILURE);
+	}
 	i = 0;
 	while (i < *width)
 	{
@@ -204,7 +190,7 @@ void	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
 	}
 }
 
-void	draw_map(t_data *img, int ***map, int height, int width, int scale, int x_offset, int y_offset)
+void	draw_map(t_data *img, int ***map, int height, int width, double scale, int x_offset, int y_offset)
 {
 	int		x;
 	int		y;
@@ -215,18 +201,18 @@ void	draw_map(t_data *img, int ***map, int height, int width, int scale, int x_o
 	{
 		for (x = 0; x < width; x++)
 		{
-			// Ponto inicial com escala e offset aplicados
+			if (!map[y] || !map[y][x])
+				continue;
+
 			p0 = project_point(x, y, map[y][x][0], map[y][x][1], scale, x_offset, y_offset);
 
-			// Desenhar linha horizontal
-			if (x < width - 1)
+			if (x < width - 1 && map[y][x + 1])
 			{
 				p1 = project_point(x + 1, y, map[y][x + 1][0], map[y][x + 1][1], scale, x_offset, y_offset);
 				draw_line(img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
 
-			// Desenhar linha vertical
-			if (y < height - 1)
+			if (y < height - 1 && map[y + 1][x])
 			{
 				p1 = project_point(x, y + 1, map[y + 1][x][0], map[y + 1][x][1], scale, x_offset, y_offset);
 				draw_line(img, p0.x, p0.y, p1.x, p1.y, p0.color);
@@ -235,19 +221,20 @@ void	draw_map(t_data *img, int ***map, int height, int width, int scale, int x_o
 	}
 }
 
+
 int	main(int ac, char **av)
 {
 	int		***map;
 	int		height;
 	int		width;
-	int		scale;
+	double		scale;
 	int		x_offset;
 	int		y_offset;
 	t_data	img;
 	void	*mlx;
 	void	*mlx_win;
 
-        if (ac != 2)
+	if (ac != 2)
 	{
 		printf("Usage: %s <file.fdf>\n", av[0]);
 		return (1);
@@ -259,16 +246,21 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "FDF");
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Ansebast's FdF");
 	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	map = read_map(av[1], &height, &width);
-	scale = 20;
-	x_offset = (1920 / 2) - ((width * scale) / 2);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+			&img.endian);
+	scale = fmin(1920 / width, 1080 / height);
+        if (scale <= 0)
+                scale = 1;
+        else if (scale > 20)
+                scale /= 2;
+        // x_offset = (1920 - (width * scale)) / 2;
+        // y_offset = (1080 - (height * scale)) / 2;
+        x_offset = (1920 / 2) - ((width * scale) / 2);
 	y_offset = (1080 / 2) - ((height * scale) / 2);
 	draw_map(&img, map, height, width, scale, x_offset, y_offset);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
 	return (0);
 }
-
