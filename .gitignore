@@ -1,5 +1,8 @@
 minilibx/
 *.o
 */*.o
+libft/libft.a
 fdf_chissali
 maps/
+.vscode
+fdf_linux
