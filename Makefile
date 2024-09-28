@@ -6,7 +6,7 @@
 #    By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 13:15:18 by ansebast          #+#    #+#              #
-#    Updated: 2024/09/27 15:16:49 by ansebast         ###   ########.fr        #
+#    Updated: 2024/09/27 16:49:02 by ansebast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	cc $(CFLAGS) $(OBJS) $(LIBRARIES) $(INCLUDES) -o $(NAME)
 
 $(LIBFT):
-	@make -C $(LIBSRC)
+	@make bonus -C $(LIBSRC)
 
 $(MLX):
 	@make -C $(MLXSRC)
