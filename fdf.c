@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/28 11:04:12 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/28 11:57:01 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,12 +253,10 @@ int	main(int ac, char **av)
 	scale = fmin(1920 / width / 2, 1080 / height / 2);
         if (scale <= 0)
                 scale = 1;
-        else if (scale > 10)
-                scale /= 2;
+        else if (scale > 20)
+                scale = 20;
         x_offset = (1920 - (width * scale)) / 2 - 100;
         y_offset = (1080 - (height * scale)) / 2 + 200;
-        // x_offset = (1920 / 2) - ((width * scale) / 2);
-	// y_offset = (1080 / 2) - ((height * scale) / 2);
 	draw_map(&img, map, height, width, scale, x_offset, y_offset);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
