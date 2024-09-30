@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 17:06:19 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:58:17 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,15 +237,30 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307 || keycode == 113)
 		ft_close(vars);
-        if (keycode == 61)
-        {
-                vars->scale += 1;
-                
-        }
-        if (keycode == 45)
-        {
-                vars->scale -= 1;
-        }
+	if (keycode == 61)
+	{
+		vars->scale += 1;
+                mlx_destroy_image(vars->mlx, vars->img.img);
+		vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+		vars->img.addr = mlx_get_data_addr(vars->img.img,
+				&vars->img.bits_per_pixel, &vars->img.line_length,
+				&vars->img.endian);
+		draw_map(&vars->img, vars->map, vars->height, vars->width, vars->scale,
+			vars->x_offset, vars->y_offset);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
+	}
+	if (keycode == 45)
+	{
+		vars->scale -= 1;
+		mlx_destroy_image(vars->mlx, vars->img.img);
+		vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+		vars->img.addr = mlx_get_data_addr(vars->img.img,
+				&vars->img.bits_per_pixel, &vars->img.line_length,
+				&vars->img.endian);
+		draw_map(&vars->img, vars->map, vars->height, vars->width, vars->scale,
+			vars->x_offset, vars->y_offset);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
+	}
 	printf("%d\n", keycode);
 	return (0);
 }
@@ -289,7 +304,6 @@ t_bounds	get_projected_bounds(int ***map, int height, int width,
 	return (bounds);
 }
 
-
 void	calculate_scale(int ****map, int *height, int *width, double *scale,
 		int *x_offset, int *y_offset)
 {
@@ -299,7 +313,7 @@ void	calculate_scale(int ****map, int *height, int *width, double *scale,
 
 	bounds = get_projected_bounds(*map, *height, *width, *scale, *x_offset,
 			*y_offset);
-	scale_x = (double)WIN_WIDTH / ((bounds.max_x ) - (bounds.min_x ));
+	scale_x = (double)WIN_WIDTH / ((bounds.max_x) - (bounds.min_x));
 	scale_y = (double)(WIN_HEIGHT - 220) / (bounds.max_y - bounds.min_y);
 	*scale = fmin(scale_x, scale_y);
 	bounds = get_projected_bounds(*map, *height, *width, *scale, *x_offset,
@@ -332,9 +346,10 @@ int	main(int ac, char **av)
 	vars.scale = 1.0;
 	vars.x_offset = 0;
 	vars.y_offset = 0;
-	calculate_scale(&vars.map, &vars.height, &vars.width, &vars.scale, &vars.x_offset, &vars.y_offset);
-	draw_map(&vars.img, vars.map, vars.height, vars.width, vars.scale, vars.x_offset, vars.y_offset);
-	free_map(vars.map, vars.height, vars.width);
+	calculate_scale(&vars.map, &vars.height, &vars.width, &vars.scale,
+		&vars.x_offset, &vars.y_offset);
+	draw_map(&vars.img, vars.map, vars.height, vars.width, vars.scale,
+		vars.x_offset, vars.y_offset);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, ft_hand_hook, &vars);
 	mlx_hook(vars.mlx_win, 17, 1L << 0, ft_close, &vars);
