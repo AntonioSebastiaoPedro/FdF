@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/28 11:57:01 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:48:27 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,21 @@
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	if (x < 0 || x >= 1920 || y < 0 || y >= 1080)
-		return;
 	char	*dst;
+
+	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
+		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
-t_point	project_point(int x, int y, int z, int color, double scale, int x_offset,
-		int y_offset)
+t_point	project_point(int x, int y, int z, int color, double scale,
+		int x_offset, int y_offset)
 {
 	t_point	proj;
+	double	angle;
 
-	double angle = 0.5236;
+	angle = 0.5236;
 	x *= scale;
 	y *= scale;
 	z *= scale;
@@ -190,7 +192,8 @@ void	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
 	}
 }
 
-void	draw_map(t_data *img, int ***map, int height, int width, double scale, int x_offset, int y_offset)
+void	draw_map(t_data *img, int ***map, int height, int width, double scale,
+		int x_offset, int y_offset)
 {
 	int		x;
 	int		y;
@@ -202,37 +205,113 @@ void	draw_map(t_data *img, int ***map, int height, int width, double scale, int 
 		for (x = 0; x < width; x++)
 		{
 			if (!map[y] || !map[y][x])
-				continue;
-
-			p0 = project_point(x, y, map[y][x][0], map[y][x][1], scale, x_offset, y_offset);
-
+				continue ;
+			p0 = project_point(x, y, map[y][x][0], map[y][x][1], scale,
+					x_offset, y_offset);
 			if (x < width - 1 && map[y][x + 1])
 			{
-				p1 = project_point(x + 1, y, map[y][x + 1][0], map[y][x + 1][1], scale, x_offset, y_offset);
+				p1 = project_point(x + 1, y, map[y][x + 1][0], map[y][x + 1][1],
+						scale, x_offset, y_offset);
 				draw_line(img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
-
 			if (y < height - 1 && map[y + 1][x])
 			{
-				p1 = project_point(x, y + 1, map[y + 1][x][0], map[y + 1][x][1], scale, x_offset, y_offset);
+				p1 = project_point(x, y + 1, map[y + 1][x][0], map[y + 1][x][1],
+						scale, x_offset, y_offset);
 				draw_line(img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
 		}
 	}
 }
 
+int	ft_close(t_vars *vars_mlx)
+{
+	mlx_destroy_image(vars_mlx->mlx, vars_mlx->img.img);
+	mlx_destroy_window(vars_mlx->mlx, vars_mlx->mlx_win);
+	mlx_destroy_display(vars_mlx->mlx);
+	free(vars_mlx->mlx);
+	exit(0);
+	return (0);
+}
+int	ft_hand_hook(int keycode, t_vars *vars)
+{
+	if (keycode == 65307 || keycode == 113)
+		ft_close(vars);
+        if (keycode == 65362)
+        {
+                
+        }
+	printf("%d\n", keycode);
+	return (0);
+}
+
+t_bounds	get_projected_bounds(int ***map, int height, int width,
+		double scale, int x_offset, int y_offset)
+{
+	t_bounds	bounds;
+	t_point		p;
+	int			first;
+
+	int x, y;
+	first = 1;
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			if (!map[y] || !map[y][x])
+				continue ;
+			p = project_point(x, y, map[y][x][0], map[y][x][1], scale, x_offset,
+					y_offset);
+			if (first)
+			{
+				bounds.min_x = bounds.max_x = p.x;
+				bounds.min_y = bounds.max_y = p.y;
+				first = 0;
+			}
+			else
+			{
+				if (p.x < bounds.min_x)
+					bounds.min_x = p.x;
+				if (p.x > bounds.max_x)
+					bounds.max_x = p.x;
+				if (p.y < bounds.min_y)
+					bounds.min_y = p.y;
+				if (p.y > bounds.max_y)
+					bounds.max_y = p.y;
+			}
+		}
+	}
+	return (bounds);
+}
+
+
+void	calculate_scale(int ****map, int *height, int *width, double *scale,
+		int *x_offset, int *y_offset)
+{
+	t_bounds	bounds;
+	double		scale_x;
+	double		scale_y;
+
+	bounds = get_projected_bounds(*map, *height, *width, *scale, *x_offset,
+			*y_offset);
+	scale_x = (double)WIN_WIDTH / ((bounds.max_x ) - (bounds.min_x ));
+	scale_y = (double)(WIN_HEIGHT - 220) / (bounds.max_y - bounds.min_y);
+	*scale = fmin(scale_x, scale_y);
+	bounds = get_projected_bounds(*map, *height, *width, *scale, *x_offset,
+			*y_offset);
+	*x_offset = (WIN_WIDTH - (bounds.max_x - bounds.min_x)) / 2 - bounds.min_x;
+	*y_offset = (WIN_HEIGHT - (bounds.max_y - bounds.min_y)) / 2 - bounds.min_y;
+}
 
 int	main(int ac, char **av)
 {
 	int		***map;
 	int		height;
 	int		width;
-	double		scale;
+	double	scale;
 	int		x_offset;
 	int		y_offset;
-	t_data	img;
-	void	*mlx;
-	void	*mlx_win;
+	t_vars	vars;
 
 	if (ac != 2)
 	{
@@ -245,20 +324,21 @@ int	main(int ac, char **av)
 		printf("Error reading file.\n");
 		return (1);
 	}
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Ansebast's FdF");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-			&img.endian);
-	scale = fmin(1920 / width / 2, 1080 / height / 2);
-        if (scale <= 0)
-                scale = 1;
-        else if (scale > 20)
-                scale = 20;
-        x_offset = (1920 - (width * scale)) / 2 - 100;
-        y_offset = (1080 - (height * scale)) / 2 + 200;
-	draw_map(&img, map, height, width, scale, x_offset, y_offset);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	vars.mlx = mlx_init();
+	vars.mlx_win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT,
+			"Ansebast's FdF");
+	vars.img.img = mlx_new_image(vars.mlx, WIN_WIDTH, WIN_HEIGHT);
+	vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel,
+			&vars.img.line_length, &vars.img.endian);
+	scale = 1.0;
+	x_offset = 0;
+	y_offset = 0;
+	calculate_scale(&map, &height, &width, &scale, &x_offset, &y_offset);
+	draw_map(&vars.img, map, height, width, scale, x_offset, y_offset);
+	free_map(map, height, width);
+	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);
+	mlx_hook(vars.mlx_win, 2, 1L << 0, ft_hand_hook, &vars);
+	mlx_hook(vars.mlx_win, 17, 1L << 0, ft_close, &vars);
+	mlx_loop(vars.mlx);
 	return (0);
 }

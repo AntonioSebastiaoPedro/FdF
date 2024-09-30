@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/28 12:02:18 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:49:29 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,8 @@
 #  define DEFAULT_COLOR 0xFFFFFF
 # endif
 
-// Definições de tamanho da janela
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-
-// Teclas de controle
-# define KEY_UP 126
-# define KEY_DOWN 125
-# define MOUSE_SCROLL_UP 4
-# define MOUSE_SCROLL_DOWN 5
 
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
@@ -51,5 +44,20 @@ typedef struct s_data
 	int		line_length;
 	int		endian;
 }			t_data;
+
+typedef struct s_vars
+{
+	void	*mlx;
+	void	*mlx_win;
+	t_data	img;
+}			t_vars;
+
+typedef struct
+{
+	int		min_x;
+	int		max_x;
+	int		min_y;
+	int		max_y;
+}			t_bounds;
 
 #endif
