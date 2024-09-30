@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 16:58:40 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:00:03 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,9 +308,6 @@ int	main(int ac, char **av)
 	int		***map;
 	int		height;
 	int		width;
-	// double	scale;
-	// int		x_offset;
-	// int		y_offset;
 	t_vars	vars;
 
 	if (ac != 2)
