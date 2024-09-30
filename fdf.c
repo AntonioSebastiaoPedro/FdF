@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 16:48:27 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:58:40 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,9 +308,9 @@ int	main(int ac, char **av)
 	int		***map;
 	int		height;
 	int		width;
-	double	scale;
-	int		x_offset;
-	int		y_offset;
+	// double	scale;
+	// int		x_offset;
+	// int		y_offset;
 	t_vars	vars;
 
 	if (ac != 2)
@@ -330,11 +330,11 @@ int	main(int ac, char **av)
 	vars.img.img = mlx_new_image(vars.mlx, WIN_WIDTH, WIN_HEIGHT);
 	vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel,
 			&vars.img.line_length, &vars.img.endian);
-	scale = 1.0;
-	x_offset = 0;
-	y_offset = 0;
-	calculate_scale(&map, &height, &width, &scale, &x_offset, &y_offset);
-	draw_map(&vars.img, map, height, width, scale, x_offset, y_offset);
+	vars.scale = 1.0;
+	vars.x_offset = 0;
+	vars.y_offset = 0;
+	calculate_scale(&map, &height, &width, &vars.scale, &vars.x_offset, &vars.y_offset);
+	draw_map(&vars.img, map, height, width, vars.scale, vars.x_offset, vars.y_offset);
 	free_map(map, height, width);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, ft_hand_hook, &vars);

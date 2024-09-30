@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 16:49:29 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:57:55 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ typedef struct s_vars
 	void	*mlx;
 	void	*mlx_win;
 	t_data	img;
+	double	scale;
+	int		x_offset;
+	int		y_offset;
 }			t_vars;
 
 typedef struct
