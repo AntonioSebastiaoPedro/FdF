@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 17:00:03 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:06:19 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,9 +237,14 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307 || keycode == 113)
 		ft_close(vars);
-        if (keycode == 65362)
+        if (keycode == 61)
         {
+                vars->scale += 1;
                 
+        }
+        if (keycode == 45)
+        {
+                vars->scale -= 1;
         }
 	printf("%d\n", keycode);
 	return (0);
@@ -305,9 +310,6 @@ void	calculate_scale(int ****map, int *height, int *width, double *scale,
 
 int	main(int ac, char **av)
 {
-	int		***map;
-	int		height;
-	int		width;
 	t_vars	vars;
 
 	if (ac != 2)
@@ -315,8 +317,8 @@ int	main(int ac, char **av)
 		printf("Usage: %s <file.fdf>\n", av[0]);
 		return (1);
 	}
-	map = read_map(av[1], &height, &width);
-	if (!map)
+	vars.map = read_map(av[1], &vars.height, &vars.width);
+	if (!vars.map)
 	{
 		printf("Error reading file.\n");
 		return (1);
@@ -330,9 +332,9 @@ int	main(int ac, char **av)
 	vars.scale = 1.0;
 	vars.x_offset = 0;
 	vars.y_offset = 0;
-	calculate_scale(&map, &height, &width, &vars.scale, &vars.x_offset, &vars.y_offset);
-	draw_map(&vars.img, map, height, width, vars.scale, vars.x_offset, vars.y_offset);
-	free_map(map, height, width);
+	calculate_scale(&vars.map, &vars.height, &vars.width, &vars.scale, &vars.x_offset, &vars.y_offset);
+	draw_map(&vars.img, vars.map, vars.height, vars.width, vars.scale, vars.x_offset, vars.y_offset);
+	free_map(vars.map, vars.height, vars.width);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, ft_hand_hook, &vars);
 	mlx_hook(vars.mlx_win, 17, 1L << 0, ft_close, &vars);
