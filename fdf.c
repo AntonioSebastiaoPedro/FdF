@@ -6,12 +6,15 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 17:58:17 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 20:44:39 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <string.h>
+
+double		g_ang1 = 0;
+double		g_ang2 = 0;
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -30,11 +33,13 @@ t_point	project_point(int x, int y, int z, int color, double scale,
 	double	angle;
 
 	angle = 0.5236;
+	x -= 514;
 	x *= scale;
+	y -= 512;
 	y *= scale;
 	z *= scale;
-	proj.x = (x + y) * cos(angle) + x_offset;
-	proj.y = (x - y) * sin(-angle) - z + y_offset;
+	proj.x = (x + y) * cos(angle + g_ang1) + x_offset;
+	proj.y = (x - y) * sin(-angle + g_ang2) - (z * 1) + y_offset;
 	proj.z = z;
 	proj.color = color;
 	return (proj);
@@ -159,6 +164,31 @@ void	free_map(int ***map, int rows, int cols)
 	free(map);
 }
 
+int	interpolate_color(int color1, int color2, double ratio)
+{
+	int	red;
+	int	green;
+	int	blue;
+
+	red = ((color1 >> 16) & 0xFF) + (int)(((color2 >> 16) & 0xFF)
+			- ((color1 >> 16) & 0xFF)) * ratio;
+	green = ((color1 >> 8) & 0xFF) + (int)(((color2 >> 8) & 0xFF)
+			- ((color1 >> 8) & 0xFF)) * ratio;
+	blue = (color1 & 0xFF) + (int)((color2 & 0xFF) - (color1 & 0xFF)) * ratio;
+	return (red << 16 | green << 8 | blue);
+}
+
+int	get_color_from_altitude(int z, int z_min, int z_max)
+{
+	double	ratio;
+
+	if (z_max == z_min)
+		ratio = 1.0;
+	else
+		ratio = (double)(z - z_min) / (z_max - z_min);
+	return (interpolate_color(LOW_COLOR, HIGH_COLOR, ratio));
+}
+
 void	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
 {
 	int	dx;
@@ -206,6 +236,7 @@ void	draw_map(t_data *img, int ***map, int height, int width, double scale,
 		{
 			if (!map[y] || !map[y][x])
 				continue ;
+			map[y][x][1] = get_color_from_altitude(map[y][x][0], -50, 10);
 			p0 = project_point(x, y, map[y][x][0], map[y][x][1], scale,
 					x_offset, y_offset);
 			if (x < width - 1 && map[y][x + 1])
@@ -233,33 +264,95 @@ int	ft_close(t_vars *vars_mlx)
 	exit(0);
 	return (0);
 }
+
+void	update_map(t_vars *vars)
+{
+	mlx_destroy_image(vars->mlx, vars->img.img);
+	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel,
+			&vars->img.line_length, &vars->img.endian);
+	draw_map(&vars->img, vars->map, vars->height, vars->width, vars->scale,
+		vars->x_offset, vars->y_offset);
+	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
+}
+
+int	zoom(int keycode, int x, int y, t_vars *vars)
+{
+	(void)x;
+	(void)y;
+	if (keycode == 4 || keycode == 61)
+	{
+		vars->scale *= 0.79;
+		update_map(vars);
+	}
+	else if (keycode == 5 || keycode == 45)
+	{
+		vars->scale *= 1.11;
+		update_map(vars);
+	}
+	else
+		return (0);
+	return (0);
+}
+
 int	ft_hand_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307 || keycode == 113)
 		ft_close(vars);
+	if (keycode == 'i')
+	{
+		update_map(vars);
+		g_ang1 -= 0.1;
+	}
+	if (keycode == 'o')
+	{
+		update_map(vars);
+		g_ang1 += 0.1;
+	}
+	if (keycode == 'k')
+	{
+		update_map(vars);
+		g_ang2 -= 0.1;
+	}
+	if (keycode == 'l')
+	{
+		update_map(vars);
+		g_ang2 += 0.1;
+	}
+	if (keycode == 97)
+	{
+		vars->scale += 0.1;
+		update_map(vars);
+	}
 	if (keycode == 61)
 	{
-		vars->scale += 1;
-                mlx_destroy_image(vars->mlx, vars->img.img);
-		vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
-		vars->img.addr = mlx_get_data_addr(vars->img.img,
-				&vars->img.bits_per_pixel, &vars->img.line_length,
-				&vars->img.endian);
-		draw_map(&vars->img, vars->map, vars->height, vars->width, vars->scale,
-			vars->x_offset, vars->y_offset);
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
+		vars->scale += 0.1;
+		update_map(vars);
 	}
-	if (keycode == 45)
+	if (keycode == 45 && vars->scale >= 0.5)
 	{
-		vars->scale -= 1;
-		mlx_destroy_image(vars->mlx, vars->img.img);
-		vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
-		vars->img.addr = mlx_get_data_addr(vars->img.img,
-				&vars->img.bits_per_pixel, &vars->img.line_length,
-				&vars->img.endian);
-		draw_map(&vars->img, vars->map, vars->height, vars->width, vars->scale,
-			vars->x_offset, vars->y_offset);
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
+		vars->scale -= 0.1;
+		update_map(vars);
+	}
+	if (keycode == 65363)
+	{
+		vars->x_offset += 10;
+		update_map(vars);
+	}
+	if (keycode == 65361)
+	{
+		vars->x_offset -= 10;
+		update_map(vars);
+	}
+	if (keycode == 65362)
+	{
+		vars->y_offset -= 10;
+		update_map(vars);
+	}
+	if (keycode == 65364)
+	{
+		vars->y_offset += 10;
+		update_map(vars);
 	}
 	printf("%d\n", keycode);
 	return (0);
@@ -352,6 +445,8 @@ int	main(int ac, char **av)
 		vars.x_offset, vars.y_offset);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, ft_hand_hook, &vars);
+	// mlx_hook(vars.mlx_win, 4, 1L << 0, zoom, &vars);
+	mlx_mouse_hook(vars.mlx_win, zoom, &vars);
 	mlx_hook(vars.mlx_win, 17, 1L << 0, ft_close, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

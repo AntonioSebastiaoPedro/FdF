@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 17:05:30 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:08:52 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
+#define LOW_COLOR 0x0000FF  // Azul do mar
+#define HIGH_COLOR 0x00FF00 // Verde do terreno
+
 
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
