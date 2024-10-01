@@ -6,17 +6,19 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 17:25:56 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:33:58 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <string.h>
 
+// #define LOW_COLOR 0x0000FF
+// #define HIGH_COLOR 0x006400
 #define LOW_COLOR 0xFFFFFFFF
 #define HIGH_COLOR 0xFFFFFFFF
 #ifndef DEFAULT_COLOR
-# define DEFAULT_COLOR 0xFFFFFFFF
+# define DEFAULT_COLOR 0xFFFFFF
 #endif
 
 int	**parse_line(char *line, int *width)
@@ -256,14 +258,12 @@ int	zoom(int keycode, int x, int y, t_vars *vars)
 		vars->scale *= 1.11;
 		update_map(vars);
 	}
-	else
-		return (0);
 	return (0);
 }
 
 int	ft_hand_hook(int keycode, t_vars *vars)
 {
-	if (keycode == 65307 || keycode == 113)
+	if (keycode == 65307)
 		ft_close(vars);
 	if (keycode == 32 || keycode == 65288)
 	{
@@ -298,13 +298,13 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 	}
 	if (keycode == 'k')
 	{
-		vars->angle_x += 0.1;
+		vars->angle_y += 0.1;
                 vars->rotate = 3;
 		update_map(vars);
 	}
 	if (keycode == 'l')
 	{
-		vars->angle_x -= 0.1;
+		vars->angle_y -= 0.1;
                 vars->rotate = 3;
 		update_map(vars);
 	}
