@@ -6,13 +6,13 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:27:45 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/27 16:40:57 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:37:20 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	isvalid(int ch, int baselen)
+int	ft_isvalid_digit(int ch, int baselen)
 {
 	char	*lcbase;
 	char	*ucbase;
@@ -30,9 +30,9 @@ int	isvalid(int ch, int baselen)
 	return (0);
 }
 
-int	isspace(int c)
+int	ft_isspace(int c)
 {
-	if (c == 9 || c == 10 || c == 11 || c == 12 || c == 13 || c == 32)
+	if (c == 32 || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
 }
@@ -46,7 +46,7 @@ int	ft_atoi_base(const char *str, int str_base)
 	res = 0;
 	sign = 1;
 	i = 0;
-	while (isspace(str[i]))
+	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '+' && str[i + 1] != '-')
 		i++;
@@ -55,7 +55,7 @@ int	ft_atoi_base(const char *str, int str_base)
 		sign = -1;
 		i++;
 	}
-	while (str[i] && isvalid(str[i], str_base))
+	while (str[i] && ft_isvalid_digit(str[i], str_base))
 	{
 		res *= str_base;
 		if (str[i] >= '0' && str[i] <= 9)

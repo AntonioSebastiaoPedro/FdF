@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 08:47:42 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:09:03 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-
 
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
@@ -54,8 +53,11 @@ typedef struct s_vars
 	int		***map;
 	int		height;
 	int		width;
-        int		z_min;
+	int		z_min;
 	int		z_max;
+	int		mid_width;
+	int		mid_height;
+	int		rotate;
 }			t_vars;
 
 typedef struct

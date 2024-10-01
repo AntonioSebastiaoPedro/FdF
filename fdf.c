@@ -6,22 +6,22 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 09:03:11 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:43:09 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <string.h>
 
-// #define LOW_COLOR  0x4AB9FE
-#define LOW_COLOR  0x6400FF00
-#define HIGH_COLOR 0x006400
-# ifndef DEFAULT_COLOR
-#  define DEFAULT_COLOR 0xFFFFFFFF 
-# endif
+#define LOW_COLOR 0xFFFFFFFF
+#define HIGH_COLOR 0xFFFFFFFF
+#ifndef DEFAULT_COLOR
+# define DEFAULT_COLOR 0xFFFFFFFF
+#endif
 
 double		g_ang1 = 0;
 double		g_ang2 = 0;
+double		g_ang3 = 0.5236;
 double		g_altitude = 1;
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -35,19 +35,25 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 }
 
 t_point	project_point(int x, int y, int z, int color, double scale,
-		int x_offset, int y_offset)
+		int x_offset, int y_offset, t_vars *vars)
 {
 	t_point	proj;
-	double	angle;
+	double	angle_z;
+	double	iso_angle;
+	double	x_rotate;
+	double	y_rotate;
 
-	angle = 0.5236;
-	// x -= 514;
+	angle_z = g_ang3;
+	x -= vars->mid_width;
 	x *= scale;
-	// y -= 512;
+	y -= vars->mid_height;
 	y *= scale;
 	z *= scale;
-	proj.x = (x + y) * cos(angle + g_ang1) + x_offset;
-	proj.y = (x - y) * sin(-angle + g_ang2) - (z * g_altitude) + y_offset;
+	x_rotate = x * cos(angle_z) - y * sin(angle_z);
+	y_rotate = x * sin(angle_z) + y * cos(angle_z);
+	iso_angle = 0.5236;
+	proj.x = (x_rotate + y_rotate) * cos(iso_angle) + x_offset;
+	proj.y = (x_rotate - y_rotate) * -sin(iso_angle) - z + y_offset;
 	proj.z = z;
 	proj.color = color;
 	return (proj);
@@ -67,21 +73,19 @@ int	**parse_line(char *line, int *width)
 	int		i;
 
 	split = ft_split(line, ' ');
-	for (*width = 0; split[*width]; (*width)++)
-		;
+	*width = 0;
+	while (split[*width])
+		(*width)++;
 	row = malloc(sizeof(int *) * (*width));
 	if (!row)
-	{
-		perror("Erro ao alocar memória para linha");
-		exit(EXIT_FAILURE);
-	}
+		ft_puterror("Error allocating memory for line\n", 1);
 	i = 0;
 	while (i < *width)
 	{
 		row[i] = malloc(sizeof(int) * 2);
-		row[i][0] = atoi(split[i]);
+		row[i][0] = ft_atoi(split[i]);
 		if (ft_strchr(split[i], ','))
-			row[i][1] = strtol(ft_strchr(split[i], ',') + 1, NULL, 16);
+			row[i][1] = ft_strtol(ft_strchr(split[i], ',') + 1, NULL, 16);
 		else
 			row[i][1] = DEFAULT_COLOR;
 		i++;
@@ -92,42 +96,34 @@ int	**parse_line(char *line, int *width)
 
 void	count_lines_columns(const char *filename, int *rows, int *cols)
 {
-	FILE	*file;
+	int	fd;
 	char	*line;
-	size_t	len;
-	ssize_t	read;
 	char	*token;
 
-	file = fopen(filename, "r");
-	if (!file)
-	{
-		perror("Erro ao abrir o arquivo");
-		exit(EXIT_FAILURE);
-	}
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+                ft_puterror("Error opening file\n", 1);
 	line = NULL;
-	len = 0;
 	*rows = 0;
 	*cols = 0;
-	while ((read = getline(&line, &len, file)) != -1)
+	while (1)
 	{
+                line = get_next_line(fd);
+                if (line == NULL)
+                        break;
 		if (*rows == 0)
 		{
-			token = strtok(line, " ");
+			token = ft_strtok(line, " ");
 			while (token)
 			{
 				(*cols)++;
-				token = strtok(NULL, " ");
+				token = ft_strtok(NULL, " ");
 			}
 		}
 		(*rows)++;
+	        free(line);
 	}
-	free(line);
-	fclose(file);
-}
-
-int	hex_to_int(const char *hex_str)
-{
-	return (int)strtol(hex_str, NULL, 16);
+	close(fd);
 }
 
 int	***read_map(const char *file, int *height, int *width)
@@ -253,19 +249,22 @@ void	draw_map(t_vars *vars)
 		{
 			if (!vars->map[y] || !vars->map[y][x])
 				continue ;
-			vars->map[y][x][1] = get_color_from_altitude(vars->map[y][x][0], vars->z_min, vars->z_max);
-			p0 = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1], vars->scale,
-					vars->x_offset, vars->y_offset);
+			vars->map[y][x][1] = get_color_from_altitude(vars->map[y][x][0],
+					vars->z_min, vars->z_max);
+			p0 = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1],
+					vars->scale, vars->x_offset, vars->y_offset, vars);
 			if (x < vars->width - 1 && vars->map[y][x + 1])
 			{
-				p1 = project_point(x + 1, y, vars->map[y][x + 1][0], vars->map[y][x + 1][1],
-						vars->scale, vars->x_offset, vars->y_offset);
+				p1 = project_point(x + 1, y, vars->map[y][x + 1][0],
+						vars->map[y][x + 1][1], vars->scale, vars->x_offset,
+						vars->y_offset, vars);
 				draw_line(&vars->img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
 			if (y < vars->height - 1 && vars->map[y + 1][x])
 			{
-				p1 = project_point(x, y + 1, vars->map[y + 1][x][0], vars->map[y + 1][x][1],
-						vars->scale, vars->x_offset, vars->y_offset);
+				p1 = project_point(x, y + 1, vars->map[y + 1][x][0], vars->map[y
+						+ 1][x][1], vars->scale, vars->x_offset, vars->y_offset,
+						vars);
 				draw_line(&vars->img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
 		}
@@ -315,6 +314,12 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307 || keycode == 113)
 		ft_close(vars);
+	if (keycode == 32)
+	{
+		g_ang3 += 0.1;
+		vars->rotate = 1;
+		update_map(vars);
+	}
 	if (keycode == 'z')
 	{
 		g_altitude += 0.1;
@@ -384,8 +389,7 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 	return (0);
 }
 
-t_bounds	get_projected_bounds(int ***map, int height, int width,
-		double scale, int x_offset, int y_offset)
+t_bounds	get_projected_bounds(t_vars *vars)
 {
 	t_bounds	bounds;
 	t_point		p;
@@ -393,14 +397,14 @@ t_bounds	get_projected_bounds(int ***map, int height, int width,
 
 	int x, y;
 	first = 1;
-	for (y = 0; y < height; y++)
+	for (y = 0; y < vars->height; y++)
 	{
-		for (x = 0; x < width; x++)
+		for (x = 0; x < vars->width; x++)
 		{
-			if (!map[y] || !map[y][x])
+			if (!vars->map[y] || !vars->map[y][x])
 				continue ;
-			p = project_point(x, y, map[y][x][0], map[y][x][1], scale, x_offset,
-					y_offset);
+			p = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1],
+					vars->scale, vars->x_offset, vars->y_offset, vars);
 			if (first)
 			{
 				bounds.min_x = bounds.max_x = p.x;
@@ -423,22 +427,21 @@ t_bounds	get_projected_bounds(int ***map, int height, int width,
 	return (bounds);
 }
 
-void	calculate_scale(int ****map, int *height, int *width, double *scale,
-		int *x_offset, int *y_offset)
+void	calculate_scale(t_vars *vars)
 {
 	t_bounds	bounds;
 	double		scale_x;
 	double		scale_y;
 
-	bounds = get_projected_bounds(*map, *height, *width, *scale, *x_offset,
-			*y_offset);
+	bounds = get_projected_bounds(vars);
 	scale_x = (double)WIN_WIDTH / ((bounds.max_x) - (bounds.min_x));
-	scale_y = (double)(WIN_HEIGHT - 220) / (bounds.max_y - bounds.min_y);
-	*scale = fmin(scale_x, scale_y);
-	bounds = get_projected_bounds(*map, *height, *width, *scale, *x_offset,
-			*y_offset);
-	*x_offset = (WIN_WIDTH - (bounds.max_x - bounds.min_x)) / 2 - bounds.min_x;
-	*y_offset = (WIN_HEIGHT - (bounds.max_y - bounds.min_y)) / 2 - bounds.min_y;
+	scale_y = (double)(WIN_HEIGHT - 200) / (bounds.max_y - bounds.min_y);
+	vars->scale = fmin(scale_x, scale_y);
+	bounds = get_projected_bounds(vars);
+	vars->x_offset = (WIN_WIDTH - (bounds.max_x - bounds.min_x)) / 2
+		- bounds.min_x;
+	vars->y_offset = (WIN_HEIGHT - (bounds.max_y - bounds.min_y)) / 2
+		- bounds.min_y;
 }
 
 void	obter_altitudes_min_max(t_vars *vars)
@@ -487,12 +490,13 @@ int	main(int ac, char **av)
 	vars.scale = 1.0;
 	vars.x_offset = 0;
 	vars.y_offset = 0;
-	calculate_scale(&vars.map, &vars.height, &vars.width, &vars.scale,
-		&vars.x_offset, &vars.y_offset);
+	vars.rotate = 0;
+	vars.mid_height = vars.height / 2;
+	vars.mid_width = vars.width / 4;
+	calculate_scale(&vars);
 	draw_map(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, ft_hand_hook, &vars);
-	// mlx_hook(vars.mlx_win, 4, 1L << 0, zoom, &vars);
 	mlx_mouse_hook(vars.mlx_win, zoom, &vars);
 	mlx_hook(vars.mlx_win, 17, 1L << 0, ft_close, &vars);
 	mlx_loop(vars.mlx);
