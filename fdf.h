@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 19:34:14 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:45:12 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void		draw_map(t_vars *vars);
 void		update_map(t_vars *vars);
 void		calculate_scale(t_vars *vars);
 void		draw_line(t_data *img, t_point p0, t_point p1);
-void		count_lines_columns(const char *filename, int *rows, int *cols);
 int			ft_close(t_vars *vars_mlx);
 int			ft_hand_hook(int keycode, t_vars *vars);
 int			zoom_object(int keycode, int x, int y, t_vars *vars);

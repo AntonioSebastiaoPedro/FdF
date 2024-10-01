@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:02:07 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 19:31:33 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:45:07 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,37 +44,6 @@ int	**parse_line(char *line, int *width)
 	return (row);
 }
 
-void	count_lines_columns(const char *filename, int *rows, int *cols)
-{
-	int		fd;
-	char	*line;
-	char	*token;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		ft_puterror("Error opening file\n", 1);
-	line = NULL;
-	*rows = 0;
-	*cols = 0;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		if (*rows == 0)
-		{
-			token = ft_strtok(line, " ");
-			while (token)
-			{
-				(*cols)++;
-				token = ft_strtok(NULL, " ");
-			}
-		}
-		(*rows)++;
-		free(line);
-	}
-	close(fd);
-}
 
 void	init_algo_vars(t_bresenham *alg, t_point *p0, t_point *p1)
 {
