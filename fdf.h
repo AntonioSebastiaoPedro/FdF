@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 20:45:12 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:04:22 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void		rotate_x(int x, int y, int z, t_vars *vars, t_point *proj);
 void		rotate_y(int x, int y, int z, t_vars *vars, t_point *proj);
 void		rotate_z(int x, int y, int z, t_vars *vars, t_point *proj);
 void		get_min_max_z(t_vars *vars);
-void		free_map(int ***map, int rows, int cols);
+void		ft_freematrix(int ***map, int rows, int cols);
 void		draw_map(t_vars *vars);
 void		update_map(t_vars *vars);
 void		calculate_scale(t_vars *vars);

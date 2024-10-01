@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 18:03:43 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:06:34 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	init_vars(t_vars *vars)
 
 int	ft_close(t_vars *vars_mlx)
 {
+        ft_freematrix(vars_mlx->map, vars_mlx->height, vars_mlx->width);
 	mlx_destroy_image(vars_mlx->mlx, vars_mlx->img.img);
 	mlx_destroy_window(vars_mlx->mlx, vars_mlx->mlx_win);
 	mlx_destroy_display(vars_mlx->mlx);
