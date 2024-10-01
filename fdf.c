@@ -6,15 +6,23 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 20:44:39 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:03:11 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <string.h>
 
+// #define LOW_COLOR  0x4AB9FE
+#define LOW_COLOR  0x6400FF00
+#define HIGH_COLOR 0x006400
+# ifndef DEFAULT_COLOR
+#  define DEFAULT_COLOR 0xFFFFFFFF 
+# endif
+
 double		g_ang1 = 0;
 double		g_ang2 = 0;
+double		g_altitude = 1;
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -33,13 +41,13 @@ t_point	project_point(int x, int y, int z, int color, double scale,
 	double	angle;
 
 	angle = 0.5236;
-	x -= 514;
+	// x -= 514;
 	x *= scale;
-	y -= 512;
+	// y -= 512;
 	y *= scale;
 	z *= scale;
 	proj.x = (x + y) * cos(angle + g_ang1) + x_offset;
-	proj.y = (x - y) * sin(-angle + g_ang2) - (z * 1) + y_offset;
+	proj.y = (x - y) * sin(-angle + g_ang2) - (z * g_altitude) + y_offset;
 	proj.z = z;
 	proj.color = color;
 	return (proj);
@@ -164,18 +172,28 @@ void	free_map(int ***map, int rows, int cols)
 	free(map);
 }
 
-int	interpolate_color(int color1, int color2, double ratio)
+int	interpolate_color(int cor_inicial, int cor_final, double t)
 {
-	int	red;
-	int	green;
-	int	blue;
+	int	r_inicial;
+	int	g_inicial;
+	int	b_inicial;
+	int	r_final;
+	int	g_final;
+	int	b_final;
+	int	r;
+	int	g;
+	int	b;
 
-	red = ((color1 >> 16) & 0xFF) + (int)(((color2 >> 16) & 0xFF)
-			- ((color1 >> 16) & 0xFF)) * ratio;
-	green = ((color1 >> 8) & 0xFF) + (int)(((color2 >> 8) & 0xFF)
-			- ((color1 >> 8) & 0xFF)) * ratio;
-	blue = (color1 & 0xFF) + (int)((color2 & 0xFF) - (color1 & 0xFF)) * ratio;
-	return (red << 16 | green << 8 | blue);
+	r_inicial = (cor_inicial >> 16) & 0xFF;
+	g_inicial = (cor_inicial >> 8) & 0xFF;
+	b_inicial = cor_inicial & 0xFF;
+	r_final = (cor_final >> 16) & 0xFF;
+	g_final = (cor_final >> 8) & 0xFF;
+	b_final = cor_final & 0xFF;
+	r = (int)((1 - t) * r_inicial + t * r_final);
+	g = (int)((1 - t) * g_inicial + t * g_final);
+	b = (int)((1 - t) * b_inicial + t * b_final);
+	return ((r << 16) | (g << 8) | b);
 }
 
 int	get_color_from_altitude(int z, int z_min, int z_max)
@@ -222,34 +240,33 @@ void	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
 	}
 }
 
-void	draw_map(t_data *img, int ***map, int height, int width, double scale,
-		int x_offset, int y_offset)
+void	draw_map(t_vars *vars)
 {
 	int		x;
 	int		y;
 	t_point	p0;
 	t_point	p1;
 
-	for (y = 0; y < height; y++)
+	for (y = 0; y < vars->height; y++)
 	{
-		for (x = 0; x < width; x++)
+		for (x = 0; x < vars->width; x++)
 		{
-			if (!map[y] || !map[y][x])
+			if (!vars->map[y] || !vars->map[y][x])
 				continue ;
-			map[y][x][1] = get_color_from_altitude(map[y][x][0], -50, 10);
-			p0 = project_point(x, y, map[y][x][0], map[y][x][1], scale,
-					x_offset, y_offset);
-			if (x < width - 1 && map[y][x + 1])
+			vars->map[y][x][1] = get_color_from_altitude(vars->map[y][x][0], vars->z_min, vars->z_max);
+			p0 = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1], vars->scale,
+					vars->x_offset, vars->y_offset);
+			if (x < vars->width - 1 && vars->map[y][x + 1])
 			{
-				p1 = project_point(x + 1, y, map[y][x + 1][0], map[y][x + 1][1],
-						scale, x_offset, y_offset);
-				draw_line(img, p0.x, p0.y, p1.x, p1.y, p0.color);
+				p1 = project_point(x + 1, y, vars->map[y][x + 1][0], vars->map[y][x + 1][1],
+						vars->scale, vars->x_offset, vars->y_offset);
+				draw_line(&vars->img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
-			if (y < height - 1 && map[y + 1][x])
+			if (y < vars->height - 1 && vars->map[y + 1][x])
 			{
-				p1 = project_point(x, y + 1, map[y + 1][x][0], map[y + 1][x][1],
-						scale, x_offset, y_offset);
-				draw_line(img, p0.x, p0.y, p1.x, p1.y, p0.color);
+				p1 = project_point(x, y + 1, vars->map[y + 1][x][0], vars->map[y + 1][x][1],
+						vars->scale, vars->x_offset, vars->y_offset);
+				draw_line(&vars->img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
 		}
 	}
@@ -271,8 +288,7 @@ void	update_map(t_vars *vars)
 	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
 	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel,
 			&vars->img.line_length, &vars->img.endian);
-	draw_map(&vars->img, vars->map, vars->height, vars->width, vars->scale,
-		vars->x_offset, vars->y_offset);
+	draw_map(vars);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
 }
 
@@ -299,25 +315,35 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307 || keycode == 113)
 		ft_close(vars);
+	if (keycode == 'z')
+	{
+		g_altitude += 0.1;
+		update_map(vars);
+	}
+	if (keycode == 'x')
+	{
+		g_altitude -= 0.1;
+		update_map(vars);
+	}
 	if (keycode == 'i')
 	{
-		update_map(vars);
 		g_ang1 -= 0.1;
+		update_map(vars);
 	}
 	if (keycode == 'o')
 	{
-		update_map(vars);
 		g_ang1 += 0.1;
+		update_map(vars);
 	}
 	if (keycode == 'k')
 	{
-		update_map(vars);
 		g_ang2 -= 0.1;
+		update_map(vars);
 	}
 	if (keycode == 'l')
 	{
-		update_map(vars);
 		g_ang2 += 0.1;
+		update_map(vars);
 	}
 	if (keycode == 97)
 	{
@@ -415,10 +441,31 @@ void	calculate_scale(int ****map, int *height, int *width, double *scale,
 	*y_offset = (WIN_HEIGHT - (bounds.max_y - bounds.min_y)) / 2 - bounds.min_y;
 }
 
+void	obter_altitudes_min_max(t_vars *vars)
+{
+	int	z_atual;
+
+	vars->z_min = INT_MAX;
+	vars->z_max = INT_MIN;
+	for (int i = 0; i < vars->height; i++)
+	{
+		for (int j = 0; j < vars->width; j++)
+		{
+			z_atual = vars->map[i][j][0];
+			if (z_atual < vars->z_min)
+				vars->z_min = z_atual;
+			if (z_atual > vars->z_max)
+				vars->z_max = z_atual;
+		}
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_vars	vars;
 
+	vars.z_min = INT_MAX;
+	vars.z_max = INT_MIN;
 	if (ac != 2)
 	{
 		printf("Usage: %s <file.fdf>\n", av[0]);
@@ -430,6 +477,7 @@ int	main(int ac, char **av)
 		printf("Error reading file.\n");
 		return (1);
 	}
+	obter_altitudes_min_max(&vars);
 	vars.mlx = mlx_init();
 	vars.mlx_win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT,
 			"Ansebast's FdF");
@@ -441,8 +489,7 @@ int	main(int ac, char **av)
 	vars.y_offset = 0;
 	calculate_scale(&vars.map, &vars.height, &vars.width, &vars.scale,
 		&vars.x_offset, &vars.y_offset);
-	draw_map(&vars.img, vars.map, vars.height, vars.width, vars.scale,
-		vars.x_offset, vars.y_offset);
+	draw_map(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, ft_hand_hook, &vars);
 	// mlx_hook(vars.mlx_win, 4, 1L << 0, zoom, &vars);

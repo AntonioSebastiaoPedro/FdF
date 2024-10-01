@@ -6,26 +6,21 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/09/30 18:08:52 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 08:47:42 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# ifndef DEFAULT_COLOR
-#  define DEFAULT_COLOR 0xFFFFFF
-# endif
-
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-#define LOW_COLOR 0x0000FF  // Azul do mar
-#define HIGH_COLOR 0x00FF00 // Verde do terreno
 
 
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
 # include <fcntl.h>
+# include <limits.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -56,9 +51,11 @@ typedef struct s_vars
 	double	scale;
 	int		x_offset;
 	int		y_offset;
-        int		***map;
+	int		***map;
 	int		height;
 	int		width;
+        int		z_min;
+	int		z_max;
 }			t_vars;
 
 typedef struct
