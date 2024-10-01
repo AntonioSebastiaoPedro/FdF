@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 15:43:09 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:56:01 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,6 @@ t_point	project_point(int x, int y, int z, int color, double scale,
 	return (proj);
 }
 
-static void	freearray(char **array, int pos)
-{
-	while (pos > 0)
-		free(array[--pos]);
-	free(array);
-}
-
 int	**parse_line(char *line, int *width)
 {
 	char	**split;
@@ -90,7 +83,7 @@ int	**parse_line(char *line, int *width)
 			row[i][1] = DEFAULT_COLOR;
 		i++;
 	}
-	freearray(split, i);
+	ft_freearray(split, i);
 	return (row);
 }
 
