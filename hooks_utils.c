@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:11:06 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 18:33:13 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:18:53 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	rotate_object(int keycode, t_vars *vars)
 		else
 			vars->angle_z -= 0.1;
 		vars->rotate = 1;
-		update_map(vars);
 	}
 	if (keycode == 'i' || keycode == 'o')
 	{
@@ -73,7 +72,6 @@ void	rotate_object(int keycode, t_vars *vars)
 		else
 			vars->altitude -= 0.1;
 		vars->rotate = 2;
-		update_map(vars);
 	}
 	if (keycode == 'k' || keycode == 'l')
 	{
@@ -82,8 +80,8 @@ void	rotate_object(int keycode, t_vars *vars)
 		else
 			vars->angle_y -= 0.1;
 		vars->rotate = 3;
-		update_map(vars);
 	}
+	update_map(vars);
 }
 
 int	ft_hand_hook(int keycode, t_vars *vars)
