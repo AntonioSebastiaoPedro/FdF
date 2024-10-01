@@ -6,24 +6,24 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:03:36 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 19:26:17 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:39:52 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_point	project_point(int x, int y, int z, int color, t_vars *vars)
+t_point	project_point(t_point *points, t_vars *vars)
 {
 	t_point	proj;
 
 	if (vars->rotate == 1)
-		rotate_z(x, y, z, vars, &proj);
+		rotate_z(points->x, points->y, points->z, vars, &proj);
 	else if (vars->rotate == 2)
-		rotate_x(x, y, z, vars, &proj);
+		rotate_x(points->x, points->y, points->z, vars, &proj);
 	else if (vars->rotate == 3)
-		rotate_y(x, y, z, vars, &proj);
-	proj.z = z;
-	proj.color = color;
+		rotate_y(points->x, points->y, points->z, vars, &proj);
+	proj.z = points->z;
+	proj.color = points->color;
 	return (proj);
 }
 
@@ -53,24 +53,24 @@ t_bounds	get_projected_bounds(t_vars *vars)
 	t_bounds	bounds;
 	t_point		p;
 	int			first;
-	int			x;
-	int			y;
+	t_point		new_point;
 
 	first = 1;
-	y = 0;
-	while (y < vars->height)
+	new_point.y = 0;
+	while (new_point.y < vars->height)
 	{
-		x = 0;
-		while (x < vars->width)
+		new_point.x = 0;
+		while (new_point.x < vars->width)
 		{
-			if (!vars->map[y] || !vars->map[y][x])
+			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
 				continue ;
-			p = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1],
-					vars);
+			new_point.color = vars->map[new_point.y][new_point.x][1];
+			new_point.z = vars->map[new_point.y][new_point.x][0];
+			p = project_point(&new_point, vars);
 			update_bounds(&first, &bounds, &p);
-			x++;
+			new_point.x++;
 		}
-		y++;
+		new_point.y++;
 	}
 	return (bounds);
 }

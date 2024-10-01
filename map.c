@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 18:55:52 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:02:43 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,44 @@ void	free_map(int ***map, int rows, int cols)
 
 void	draw_map(t_vars *vars)
 {
-	int		x;
-	int		y;
 	t_point	p0;
 	t_point	p1;
+	t_point	new_point;
 
-	for (y = 0; y < vars->height; y++)
+	new_point.y = 0;
+	while (new_point.y < vars->height)
 	{
-		for (x = 0; x < vars->width; x++)
+		new_point.x = 0;
+		while (new_point.x < vars->width)
 		{
-			if (!vars->map[y] || !vars->map[y][x])
+			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
 				continue ;
-			vars->map[y][x][1] = get_color_from_altitude(vars->map[y][x][0],
+			vars->map[new_point.y][new_point.x][1] = get_color_from_altitude(vars->map[new_point.y][new_point.x][0],
 					vars->z_min, vars->z_max);
-			p0 = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1],
-					vars);
-			if (x < vars->width - 1 && vars->map[y][x + 1])
+			new_point.color = vars->map[new_point.y][new_point.x][1];
+			new_point.z = vars->map[new_point.y][new_point.x][0];
+			p0 = project_point(&new_point, vars);
+			if (new_point.x < vars->width - 1 && vars->map[new_point.y][new_point.x + 1])
 			{
-				p1 = project_point(x + 1, y, vars->map[y][x + 1][0],
-						vars->map[y][x + 1][1], vars);
+				new_point.color = vars->map[new_point.y][new_point.x + 1][1];
+				new_point.z = vars->map[new_point.y][new_point.x + 1][0];
+                                new_point.x++;
+				p1 = project_point(&new_point, vars);
 				draw_line(&vars->img, p0, p1);
+                                new_point.x--;
 			}
-			if (y < vars->height - 1 && vars->map[y + 1][x])
+			if (new_point.y < vars->height - 1 && vars->map[new_point.y + 1][new_point.x])
 			{
-				p1 = project_point(x, y + 1, vars->map[y + 1][x][0], vars->map[y
-						+ 1][x][1], vars);
+				new_point.color = vars->map[new_point.y + 1][new_point.x][1];
+				new_point.z = vars->map[new_point.y + 1][new_point.x][0];
+                                new_point.y++;
+				p1 = project_point(&new_point, vars);
 				draw_line(&vars->img, p0, p1);
+                                new_point.y--;
 			}
+			new_point.x++;
 		}
+		new_point.y++;
 	}
 }
 

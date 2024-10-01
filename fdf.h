@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 19:14:19 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:34:14 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct s_colors
 	int		b_final;
 }			t_colors;
 
-t_point		project_point(int x, int y, int z, int color, t_vars *vars);
+t_point		project_point(t_point *points, t_vars *vars);
 t_bounds	get_projected_bounds(t_vars *vars);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		init_vars(t_vars *vars);
