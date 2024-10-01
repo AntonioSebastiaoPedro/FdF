@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:32:38 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 16:14:36 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:38:01 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ int					ft_isspace(int c);
 long				ft_strtol(char *str, char **endptr, int base);
 int					hex_to_int(char *hex_str);
 void				ft_freearray(char **array, int pos);
+int					ft_abs(int n);
 #endif

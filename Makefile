@@ -6,7 +6,7 @@
 #    By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 13:15:18 by ansebast          #+#    #+#              #
-#    Updated: 2024/10/01 17:14:08 by ansebast         ###   ########.fr        #
+#    Updated: 2024/10/01 19:04:05 by ansebast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBSRC = ./libft
 MLXSRC = ./minilibx
 LIBFT = $(LIBSRC)/libft.a
 MLX = $(MLXSRC)/libmlx.a
-SRC = fdf.c mlx_utils.c rotate.c
+SRC = fdf.c mlx_utils.c rotate.c utils.c map.c color.c projection.c hooks_utils.c line_utils.c
 OBJS = $(SRC:.c=.o)
 
 INCLUDES = -I$(LIBSRC) -I$(MLXSRC)

@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 17:17:58 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:53:32 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,36 @@ typedef struct
 	int		min_y;
 	int		max_y;
 }			t_bounds;
+typedef struct s_bresenham
+{
+	int		dx;
+	int		dy;
+	int		sx;
+	int		sy;
+	int		err;
+	int		e2;
+}			t_bresenham;
 
-void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 t_point		project_point(int x, int y, int z, int color, t_vars *vars);
+t_bounds	get_projected_bounds(t_vars *vars);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		init_vars(t_vars *vars);
 void		rotate_x(int x, int y, int z, t_vars *vars, t_point *proj);
 void		rotate_y(int x, int y, int z, t_vars *vars, t_point *proj);
 void		rotate_z(int x, int y, int z, t_vars *vars, t_point *proj);
+void		get_min_max_z(t_vars *vars);
+void		free_map(int ***map, int rows, int cols);
+void		draw_map(t_vars *vars);
+void		update_map(t_vars *vars);
+void		calculate_scale(t_vars *vars);
+void	draw_line(t_data *img, t_point p0, t_point p1);
+void		count_lines_columns(const char *filename, int *rows, int *cols);
+int			ft_close(t_vars *vars_mlx);
+int			ft_hand_hook(int keycode, t_vars *vars);
+int			zoom_object(int keycode, int x, int y, t_vars *vars);
+int			***read_map(const char *file, int *height, int *width);
+int			**parse_line(char *line, int *width);
+int			interpolate_color(int cor_inicial, int cor_final, double t);
+int			get_color_from_altitude(int z, int z_min, int z_max);
 
 #endif
