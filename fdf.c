@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 16:41:23 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:25:56 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 #ifndef DEFAULT_COLOR
 # define DEFAULT_COLOR 0xFFFFFFFF
 #endif
-
-double		g_ang1 = 0;
-double		g_ang2 = 0;
-double		g_altitude = 1;
 
 int	**parse_line(char *line, int *width)
 {
@@ -209,19 +205,17 @@ void	draw_map(t_vars *vars)
 			vars->map[y][x][1] = get_color_from_altitude(vars->map[y][x][0],
 					vars->z_min, vars->z_max);
 			p0 = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1],
-					vars->scale, vars->x_offset, vars->y_offset, vars);
+					vars);
 			if (x < vars->width - 1 && vars->map[y][x + 1])
 			{
 				p1 = project_point(x + 1, y, vars->map[y][x + 1][0],
-						vars->map[y][x + 1][1], vars->scale, vars->x_offset,
-						vars->y_offset, vars);
+						vars->map[y][x + 1][1], vars);
 				draw_line(&vars->img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
 			if (y < vars->height - 1 && vars->map[y + 1][x])
 			{
 				p1 = project_point(x, y + 1, vars->map[y + 1][x][0], vars->map[y
-						+ 1][x][1], vars->scale, vars->x_offset, vars->y_offset,
-						vars);
+						+ 1][x][1], vars);
 				draw_line(&vars->img, p0.x, p0.y, p1.x, p1.y, p0.color);
 			}
 		}
@@ -271,41 +265,47 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307 || keycode == 113)
 		ft_close(vars);
-	if (keycode == 32)
+	if (keycode == 32 || keycode == 65288)
 	{
-		vars->angle_z += 0.1;
-		printf("%f", vars->angle_z);
+                if (keycode == 32)
+		        vars->angle_z += 0.1;
+                else
+		        vars->angle_z -= 0.1;
 		vars->rotate = 1;
 		update_map(vars);
 	}
 	if (keycode == 'z')
 	{
-		g_altitude += 0.1;
+		vars->altitude += 0.1;
 		update_map(vars);
 	}
 	if (keycode == 'x')
 	{
-		g_altitude -= 0.1;
+		vars->altitude -= 0.1;
 		update_map(vars);
 	}
 	if (keycode == 'i')
 	{
-		g_ang1 -= 0.1;
+		vars->angle_x -= 0.1;
+                vars->rotate = 2;
 		update_map(vars);
 	}
 	if (keycode == 'o')
 	{
-		g_ang1 += 0.1;
+		vars->angle_x += 0.1;
+                vars->rotate = 2;
 		update_map(vars);
 	}
 	if (keycode == 'k')
 	{
-		g_ang2 -= 0.1;
+		vars->angle_x += 0.1;
+                vars->rotate = 3;
 		update_map(vars);
 	}
 	if (keycode == 'l')
 	{
-		g_ang2 += 0.1;
+		vars->angle_x -= 0.1;
+                vars->rotate = 3;
 		update_map(vars);
 	}
 	if (keycode == 97)
@@ -362,7 +362,7 @@ t_bounds	get_projected_bounds(t_vars *vars)
 			if (!vars->map[y] || !vars->map[y][x])
 				continue ;
 			p = project_point(x, y, vars->map[y][x][0], vars->map[y][x][1],
-					vars->scale, vars->x_offset, vars->y_offset, vars);
+					vars);
 			if (first)
 			{
 				bounds.min_x = bounds.max_x = p.x;

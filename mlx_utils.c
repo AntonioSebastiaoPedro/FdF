@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 16:40:55 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:19:18 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,15 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-t_point	project_point(int x, int y, int z, int color, double scale,
-		int x_offset, int y_offset, t_vars *vars)
+t_point	project_point(int x, int y, int z, int color, t_vars *vars)
 {
 	t_point	proj;
-	double	angle_z;
-	double	iso_angle;
-	double	x_rotate;
-	double	y_rotate;
-
-	angle_z = vars->angle_z;
-	x -= vars->mid_width;
-	x *= scale;
-	y -= vars->mid_height;
-	y *= scale;
-	z *= scale;
-	x_rotate = x * cos(angle_z) - y * sin(angle_z);
-	y_rotate = x * sin(angle_z) + y * cos(angle_z);
-	iso_angle = 0.5236;
-	proj.x = (x_rotate + y_rotate) * cos(iso_angle) + x_offset;
-	proj.y = (x_rotate - y_rotate) * -sin(iso_angle) - z + y_offset;
+	if (vars->rotate == 1)
+                rotate_z(x, y, z, vars, &proj);
+        else if (vars->rotate == 2)
+                rotate_x(x, y, z, vars, &proj);
+        else if (vars->rotate == 3)
+                rotate_y(x, y, z, vars, &proj);
 	proj.z = z;
 	proj.color = color;
 	return (proj);
@@ -62,6 +51,7 @@ void	init_vars(t_vars *vars)
 	vars->y_offset = 0;
 	vars->z_min = INT_MAX;
 	vars->z_max = INT_MIN;
-	vars->rotate = 0;
+	vars->rotate = 1;
 	vars->angle_z = 0.5236;
+        vars->altitude = 1;
 }
