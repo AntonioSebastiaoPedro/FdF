@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 17:33:58 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:52:53 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,12 +248,12 @@ int	zoom(int keycode, int x, int y, t_vars *vars)
 {
 	(void)x;
 	(void)y;
-	if (keycode == 4 || keycode == 61)
+	if ((keycode == 5 || keycode == 45))
 	{
 		vars->scale *= 0.79;
 		update_map(vars);
 	}
-	else if (keycode == 5 || keycode == 45)
+	else if ((keycode == 4 || keycode == 61))
 	{
 		vars->scale *= 1.11;
 		update_map(vars);
@@ -265,82 +265,53 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 65307)
 		ft_close(vars);
-	if (keycode == 32 || keycode == 65288)
+	if (keycode == ' ' || keycode == 65288)
 	{
-                if (keycode == 32)
+                if (keycode == ' ')
 		        vars->angle_z += 0.1;
                 else
 		        vars->angle_z -= 0.1;
 		vars->rotate = 1;
 		update_map(vars);
 	}
-	if (keycode == 'z')
+	if (keycode == 'z' || keycode == 'x')
 	{
-		vars->altitude += 0.1;
+                if (keycode == 'z')
+		        vars->altitude += 0.1;
+                else
+		        vars->altitude -= 0.1;
 		update_map(vars);
 	}
-	if (keycode == 'x')
+	if (keycode == 'i' || keycode == 'o')
 	{
-		vars->altitude -= 0.1;
-		update_map(vars);
-	}
-	if (keycode == 'i')
-	{
-		vars->angle_x -= 0.1;
+		if (keycode == 'i')
+		        vars->altitude += 0.1;
+                else
+		        vars->altitude -= 0.1;
                 vars->rotate = 2;
 		update_map(vars);
 	}
-	if (keycode == 'o')
+	if (keycode == 'k' || keycode == 'l')
 	{
-		vars->angle_x += 0.1;
-                vars->rotate = 2;
-		update_map(vars);
-	}
-	if (keycode == 'k')
-	{
-		vars->angle_y += 0.1;
+		if (keycode == 'k')
+		        vars->angle_y += 0.1;
+                else
+		        vars->angle_y -= 0.1;
                 vars->rotate = 3;
 		update_map(vars);
 	}
-	if (keycode == 'l')
+	if (keycode == 61 || keycode == 45)
+		zoom(keycode, 0, 0, vars);
+	if (keycode >= 65361 && keycode <= 65364)
 	{
-		vars->angle_y -= 0.1;
-                vars->rotate = 3;
-		update_map(vars);
-	}
-	if (keycode == 97)
-	{
-		vars->scale += 0.1;
-		update_map(vars);
-	}
-	if (keycode == 61)
-	{
-		vars->scale += 0.1;
-		update_map(vars);
-	}
-	if (keycode == 45 && vars->scale >= 0.5)
-	{
-		vars->scale -= 0.1;
-		update_map(vars);
-	}
-	if (keycode == 65363)
-	{
-		vars->x_offset += 10;
-		update_map(vars);
-	}
-	if (keycode == 65361)
-	{
-		vars->x_offset -= 10;
-		update_map(vars);
-	}
-	if (keycode == 65362)
-	{
-		vars->y_offset -= 10;
-		update_map(vars);
-	}
-	if (keycode == 65364)
-	{
-		vars->y_offset += 10;
+                if (keycode == 65361)
+		        vars->x_offset -= 10;
+                else if (keycode == 65363)
+		        vars->x_offset += 10;
+                else if (keycode == 65362)
+		        vars->y_offset -= 10;
+                else if (keycode == 65364)
+		        vars->y_offset += 10;
 		update_map(vars);
 	}
 	printf("%d\n", keycode);
