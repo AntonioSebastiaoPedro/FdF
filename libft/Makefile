@@ -6,7 +6,7 @@
 #    By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/29 11:32:47 by ansebast          #+#    #+#              #
-#    Updated: 2024/09/27 16:46:53 by ansebast         ###   ########.fr        #
+#    Updated: 2024/10/01 15:26:36 by ansebast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ BONUS_SRC = ft_lstadd_back.c \
 		ft_lstlast.c \
 		ft_lstmap.c \
 		ft_lstnew.c \
-		ft_lstsize.c get_next_line.c ft_atoi_base.c
+		ft_lstsize.c get_next_line.c ft_atoi_base.c ft_puterror.c ft_strtok.c
 
 SRC = ft_atoi.c \
       ft_bzero.c \
