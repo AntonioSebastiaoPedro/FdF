@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:30:48 by ansebast          #+#    #+#             */
-/*   Updated: 2024/08/27 13:36:56 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:17:58 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ static char	*ft_get_word(char const *s, int *i, char c)
 	word = ft_substr(s, *i, word_len);
 	*i += word_len;
 	return (word);
-}
-
-static void	ft_freearray(char **array, int pos)
-{
-	while (pos > 0)
-		free(array[--pos]);
-	free(array);
 }
 
 char	**ft_split(char const *s, char c)

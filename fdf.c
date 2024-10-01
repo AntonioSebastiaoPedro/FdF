@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 15:56:01 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:41:23 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,43 +21,7 @@
 
 double		g_ang1 = 0;
 double		g_ang2 = 0;
-double		g_ang3 = 0.5236;
 double		g_altitude = 1;
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
-		return ;
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-t_point	project_point(int x, int y, int z, int color, double scale,
-		int x_offset, int y_offset, t_vars *vars)
-{
-	t_point	proj;
-	double	angle_z;
-	double	iso_angle;
-	double	x_rotate;
-	double	y_rotate;
-
-	angle_z = g_ang3;
-	x -= vars->mid_width;
-	x *= scale;
-	y -= vars->mid_height;
-	y *= scale;
-	z *= scale;
-	x_rotate = x * cos(angle_z) - y * sin(angle_z);
-	y_rotate = x * sin(angle_z) + y * cos(angle_z);
-	iso_angle = 0.5236;
-	proj.x = (x_rotate + y_rotate) * cos(iso_angle) + x_offset;
-	proj.y = (x_rotate - y_rotate) * -sin(iso_angle) - z + y_offset;
-	proj.z = z;
-	proj.color = color;
-	return (proj);
-}
 
 int	**parse_line(char *line, int *width)
 {
@@ -89,21 +53,21 @@ int	**parse_line(char *line, int *width)
 
 void	count_lines_columns(const char *filename, int *rows, int *cols)
 {
-	int	fd;
+	int		fd;
 	char	*line;
 	char	*token;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-                ft_puterror("Error opening file\n", 1);
+		ft_puterror("Error opening file\n", 1);
 	line = NULL;
 	*rows = 0;
 	*cols = 0;
 	while (1)
 	{
-                line = get_next_line(fd);
-                if (line == NULL)
-                        break;
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		if (*rows == 0)
 		{
 			token = ft_strtok(line, " ");
@@ -114,7 +78,7 @@ void	count_lines_columns(const char *filename, int *rows, int *cols)
 			}
 		}
 		(*rows)++;
-	        free(line);
+		free(line);
 	}
 	close(fd);
 }
@@ -309,7 +273,8 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 		ft_close(vars);
 	if (keycode == 32)
 	{
-		g_ang3 += 0.1;
+		vars->angle_z += 0.1;
+		printf("%f", vars->angle_z);
 		vars->rotate = 1;
 		update_map(vars);
 	}
@@ -437,12 +402,10 @@ void	calculate_scale(t_vars *vars)
 		- bounds.min_y;
 }
 
-void	obter_altitudes_min_max(t_vars *vars)
+void	get_min_max_z(t_vars *vars)
 {
 	int	z_atual;
 
-	vars->z_min = INT_MAX;
-	vars->z_max = INT_MIN;
 	for (int i = 0; i < vars->height; i++)
 	{
 		for (int j = 0; j < vars->width; j++)
@@ -460,32 +423,13 @@ int	main(int ac, char **av)
 {
 	t_vars	vars;
 
-	vars.z_min = INT_MAX;
-	vars.z_max = INT_MIN;
 	if (ac != 2)
-	{
-		printf("Usage: %s <file.fdf>\n", av[0]);
-		return (1);
-	}
+		ft_puterror("Usage: ./fdf <file.fdf>\n", 1);
 	vars.map = read_map(av[1], &vars.height, &vars.width);
 	if (!vars.map)
-	{
-		printf("Error reading file.\n");
-		return (1);
-	}
-	obter_altitudes_min_max(&vars);
-	vars.mlx = mlx_init();
-	vars.mlx_win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT,
-			"Ansebast's FdF");
-	vars.img.img = mlx_new_image(vars.mlx, WIN_WIDTH, WIN_HEIGHT);
-	vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel,
-			&vars.img.line_length, &vars.img.endian);
-	vars.scale = 1.0;
-	vars.x_offset = 0;
-	vars.y_offset = 0;
-	vars.rotate = 0;
-	vars.mid_height = vars.height / 2;
-	vars.mid_width = vars.width / 4;
+		ft_puterror("Usage: ./fdf <file.fdf>\n", 1);
+	init_vars(&vars);
+	get_min_max_z(&vars);
 	calculate_scale(&vars);
 	draw_map(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img.img, 0, 0);

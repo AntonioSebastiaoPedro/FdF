@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 12:09:03 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:36:58 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ typedef struct s_vars
 {
 	void	*mlx;
 	void	*mlx_win;
-	t_data	img;
 	double	scale;
+	double	angle_x;
+	double	angle_y;
+	double	angle_z;
 	int		x_offset;
 	int		y_offset;
 	int		***map;
@@ -58,6 +60,7 @@ typedef struct s_vars
 	int		mid_width;
 	int		mid_height;
 	int		rotate;
+	t_data	img;
 }			t_vars;
 
 typedef struct
@@ -67,5 +70,10 @@ typedef struct
 	int		min_y;
 	int		max_y;
 }			t_bounds;
+
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+t_point		project_point(int x, int y, int z, int color, double scale,
+				int x_offset, int y_offset, t_vars *vars);
+void		init_vars(t_vars *vars);
 
 #endif
