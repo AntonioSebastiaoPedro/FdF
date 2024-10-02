@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:02:07 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 20:45:07 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:35:51 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	**parse_line(char *line, int *width)
 	return (row);
 }
 
-
 void	init_algo_vars(t_bresenham *alg, t_point *p0, t_point *p1)
 {
 	alg->dx = ft_abs(p1->x - p0->x);
@@ -62,7 +61,7 @@ void	init_algo_vars(t_bresenham *alg, t_point *p0, t_point *p1)
 
 void	draw_line(t_data *img, t_point p0, t_point p1)
 {
-	t_bresenham alg;
+	t_bresenham	alg;
 
 	init_algo_vars(&alg, &p0, &p1);
 	while (1)
@@ -81,5 +80,35 @@ void	draw_line(t_data *img, t_point p0, t_point p1)
 			alg.err += alg.dx;
 			p0.y += alg.sy;
 		}
+	}
+}
+
+void	draw_horizontal_lines(t_vars *vars, t_point *new_point, t_point *p0,
+		t_point *p1)
+{
+	if (new_point->x < vars->width - 1 && vars->map[new_point->y][new_point->x
+		+ 1])
+	{
+		new_point->color = vars->map[new_point->y][new_point->x + 1][1];
+		new_point->z = vars->map[new_point->y][new_point->x + 1][0];
+		new_point->x++;
+		*p1 = project_point(new_point, vars);
+		draw_line(&vars->img, *p0, *p1);
+		new_point->x--;
+	}
+}
+
+void	draw_vertical_lines(t_vars *vars, t_point *new_point, t_point *p0,
+		t_point *p1)
+{
+	if (new_point->y < vars->height - 1 && vars->map[new_point->y
+		+ 1][new_point->x])
+	{
+		new_point->color = vars->map[new_point->y + 1][new_point->x][1];
+		new_point->z = vars->map[new_point->y + 1][new_point->x][0];
+		new_point->y++;
+		*p1 = project_point(new_point, vars);
+		draw_line(&vars->img, *p0, *p1);
+		new_point->y--;
 	}
 }

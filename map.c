@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 21:02:51 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:27:38 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	***read_map(const char *file, int *height, int *width)
 		return (NULL);
 	*height = 0;
 	line = get_next_line(fd);
+	if (!line)
+		return (NULL);
 	while (line)
 	{
 		free(line);
@@ -32,9 +34,13 @@ int	***read_map(const char *file, int *height, int *width)
 	}
 	close(fd);
 	map = malloc(sizeof(int **) * (*height));
+	if (!map)
+		return (NULL);
 	fd = open(file, O_RDONLY);
 	i = 0;
 	line = get_next_line(fd);
+	if (!line)
+		return (NULL);
 	while (line)
 	{
 		map[i++] = parse_line(line, width);
@@ -64,26 +70,8 @@ void	draw_map(t_vars *vars)
 			new_point.color = vars->map[new_point.y][new_point.x][1];
 			new_point.z = vars->map[new_point.y][new_point.x][0];
 			p0 = project_point(&new_point, vars);
-			if (new_point.x < vars->width - 1
-				&& vars->map[new_point.y][new_point.x + 1])
-			{
-				new_point.color = vars->map[new_point.y][new_point.x + 1][1];
-				new_point.z = vars->map[new_point.y][new_point.x + 1][0];
-				new_point.x++;
-				p1 = project_point(&new_point, vars);
-				draw_line(&vars->img, p0, p1);
-				new_point.x--;
-			}
-			if (new_point.y < vars->height - 1 && vars->map[new_point.y
-				+ 1][new_point.x])
-			{
-				new_point.color = vars->map[new_point.y + 1][new_point.x][1];
-				new_point.z = vars->map[new_point.y + 1][new_point.x][0];
-				new_point.y++;
-				p1 = project_point(&new_point, vars);
-				draw_line(&vars->img, p0, p1);
-				new_point.y--;
-			}
+			draw_horizontal_lines(vars, &new_point, &p0, &p1);
+			draw_vertical_lines(vars, &new_point, &p0, &p1);
 			new_point.x++;
 		}
 		new_point.y++;
