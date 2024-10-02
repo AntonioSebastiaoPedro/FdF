@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:03:36 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 19:39:52 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:03:21 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ t_point	project_point(t_point *points, t_vars *vars)
 	t_point	proj;
 
 	if (vars->rotate == 1)
-		rotate_z(points->x, points->y, points->z, vars, &proj);
+		rotate_z(points, vars, &proj);
 	else if (vars->rotate == 2)
-		rotate_x(points->x, points->y, points->z, vars, &proj);
+		rotate_x(points, vars, &proj);
 	else if (vars->rotate == 3)
-		rotate_y(points->x, points->y, points->z, vars, &proj);
+		rotate_y(points, vars, &proj);
 	proj.z = points->z;
 	proj.color = points->color;
 	return (proj);
@@ -62,8 +62,8 @@ t_bounds	get_projected_bounds(t_vars *vars)
 		new_point.x = 0;
 		while (new_point.x < vars->width)
 		{
-			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
-				continue ;
+			// if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
+			// 	continue ;
 			new_point.color = vars->map[new_point.y][new_point.x][1];
 			new_point.z = vars->map[new_point.y][new_point.x][0];
 			p = project_point(&new_point, vars);

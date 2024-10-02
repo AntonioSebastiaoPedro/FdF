@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/02 11:18:38 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:58:31 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ t_point		project_point(t_point *points, t_vars *vars);
 t_bounds	get_projected_bounds(t_vars *vars);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		init_vars(t_vars *vars);
-void		rotate_x(int x, int y, int z, t_vars *vars, t_point *proj);
-void		rotate_y(int x, int y, int z, t_vars *vars, t_point *proj);
-void		rotate_z(int x, int y, int z, t_vars *vars, t_point *proj);
+void		rotate_x(t_point *points, t_vars *vars, t_point *proj);
+void		rotate_y(t_point *points, t_vars *vars, t_point *proj);
+void		rotate_z(t_point *points, t_vars *vars, t_point *proj);
 void		get_min_max_z(t_vars *vars);
 void		ft_freematrix(int ***map, int rows, int cols);
 void		draw_map(t_vars *vars);
