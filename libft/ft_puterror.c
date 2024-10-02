@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 16:29:12 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 14:22:11 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:41:51 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_puterror(char *str, int ext)
 {
-        ft_putstr_fd(str, 2);
+	ft_putstr_fd(str, 2);
 	exit(ext);
 }

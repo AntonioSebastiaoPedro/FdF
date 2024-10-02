@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:43:47 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 15:44:06 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:41:21 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int	hex_to_int(char *hex_str)
 {
-	return (int)ft_strtol(hex_str, NULL, 16);
+	return ((int)ft_strtol(hex_str, NULL, 16));
 }

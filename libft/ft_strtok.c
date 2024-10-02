@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:07:42 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 15:28:22 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:42:25 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strtok(char *str, const char *delimiter)
 {
-	static char *current_position;
-	char *token_start;
+	static char	*current_position;
+	char		*token_start;
 
 	if (str != NULL)
 		current_position = str;
