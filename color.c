@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:58:19 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 19:16:13 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 06:45:42 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 #define LOW_COLOR 0xFFFFFFFF
 #define HIGH_COLOR 0xFFFFFFFF
 
-int	interpolate_color(int cor_inicial, int cor_final, double t)
+int	interpolate_color(int cor_initial, int cor_final, double t)
 {
 	t_colors	colors;
 	int			r;
 	int			g;
 	int			b;
 
-	colors.r_inicial = (cor_inicial >> 16) & 0xFF;
-	colors.g_inicial = (cor_inicial >> 8) & 0xFF;
-	colors.b_inicial = cor_inicial & 0xFF;
+	colors.r_initial = (cor_initial >> 16) & 0xFF;
+	colors.g_initial = (cor_initial >> 8) & 0xFF;
+	colors.b_initial = cor_initial & 0xFF;
 	colors.r_final = (cor_final >> 16) & 0xFF;
 	colors.g_final = (cor_final >> 8) & 0xFF;
 	colors.b_final = cor_final & 0xFF;
-	r = (int)((1 - t) * colors.r_inicial + t * colors.r_final);
-	g = (int)((1 - t) * colors.g_inicial + t * colors.g_final);
-	b = (int)((1 - t) * colors.b_inicial + t * colors.b_final);
+	r = (int)((1 - t) * colors.r_initial + t * colors.r_final);
+	g = (int)((1 - t) * colors.g_initial + t * colors.g_final);
+	b = (int)((1 - t) * colors.b_initial + t * colors.b_final);
 	return ((r << 16) | (g << 8) | b);
 }
 

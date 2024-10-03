@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/02 12:58:31 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 06:50:53 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,22 @@ typedef struct s_bresenham
 	int		e2;
 }			t_bresenham;
 
+typedef struct s_data_rotate
+{
+	double	angle_x;
+	double	angle_y;
+	double	angle_z;
+	double	x_rotate;
+	double	y_rotate;
+	double	z_rotate;
+	double	iso_angle;
+}			t_data_rotate;
+
 typedef struct s_colors
 {
-	int		r_inicial;
-	int		g_inicial;
-	int		b_inicial;
+	int		r_initial;
+	int		g_initial;
+	int		b_initial;
 	int		r_final;
 	int		g_final;
 	int		b_final;
@@ -95,9 +106,9 @@ t_point		project_point(t_point *points, t_vars *vars);
 t_bounds	get_projected_bounds(t_vars *vars);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		init_vars(t_vars *vars);
-void		rotate_x(t_point *points, t_vars *vars, t_point *proj);
-void		rotate_y(t_point *points, t_vars *vars, t_point *proj);
-void		rotate_z(t_point *points, t_vars *vars, t_point *proj);
+void		rotate_x(int x, int y, int z, t_vars *vars, t_point *proj);
+void		rotate_y(int x, int y, int z, t_vars *vars, t_point *proj);
+void		rotate_z(int x, int y, int z, t_vars *vars, t_point *proj);
 void		get_min_max_z(t_vars *vars);
 void		ft_freematrix(int ***map, int rows, int cols);
 void		draw_map(t_vars *vars);
@@ -113,7 +124,7 @@ int			ft_hand_hook(int keycode, t_vars *vars);
 int			zoom_object(int keycode, int x, int y, t_vars *vars);
 int			***read_map(const char *file, int *height, int *width);
 int			**parse_line(char *line, int *width);
-int			interpolate_color(int cor_inicial, int cor_final, double t);
+int			interpolate_color(int cor_initial, int cor_final, double t);
 int			get_color_from_altitude(int z, int z_min, int z_max);
 
 #endif
