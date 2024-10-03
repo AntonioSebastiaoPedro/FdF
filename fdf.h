@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 11:00:49 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:21:49 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ typedef struct s_point
 	int		color;
 }			t_point;
 
+typedef struct s_data_rotate
+{
+	double	x;
+	double	y;
+	double	z;
+}			t_data_rotate;
+
 typedef struct s_data
 {
 	void	*img;
@@ -51,7 +58,7 @@ typedef struct s_vars
 	double	angle_x;
 	double	angle_y;
 	double	angle_z;
-        double        iso_angle;
+	double	iso_angle;
 	int		x_offset;
 	int		y_offset;
 	int		***map;
@@ -82,17 +89,6 @@ typedef struct s_bresenham
 	int		e2;
 }			t_bresenham;
 
-typedef struct s_data_rotate
-{
-	double	angle_x;
-	double	angle_y;
-	double	angle_z;
-	double	x_rotate;
-	double	y_rotate;
-	double	z_rotate;
-	double	iso_angle;
-}			t_data_rotate;
-
 typedef struct s_colors
 {
 	int		r_initial;
@@ -107,9 +103,13 @@ t_point		project_point(t_point *points, t_vars *vars);
 t_bounds	get_projected_bounds(t_vars *vars);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		init_vars(t_vars *vars);
-void		rotate_x(t_point *points, t_vars *vars, t_point *proj);
-void		rotate_y(t_point *points, t_vars *vars, t_point *proj);
-void		rotate_z(t_point *points, t_vars *vars, t_point *proj);
+void		rotate(t_point *points, t_vars *vars, t_point *proj);
+void		rotate_x(double *y, double *z, t_data_rotate *data_rotate,
+				t_vars *vars);
+void		rotate_y(double *x, double *z, t_data_rotate *data_rotate,
+				t_vars *vars);
+void		rotate_z(double *x, double *y, t_data_rotate *data_rotate,
+				t_vars *vars);
 void		get_min_max_z(t_vars *vars);
 void		ft_freematrix(int ***map, int rows, int cols);
 void		draw_map(t_vars *vars);

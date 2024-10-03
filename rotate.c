@@ -6,89 +6,60 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:44:00 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 11:01:37 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:21:30 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	rotate_z(t_point *points, t_vars *vars, t_point *proj)
+void	rotate(t_point *points, t_vars *vars, t_point *proj)
 {
-	int				x;
-	int				y;
-	int				z;
 	t_data_rotate	data_rotate;
+	double			tmp_x;
+	double			tmp_y;
+	double			tmp_z;
 
-	x = points->x;
-	y = points->y;
-	z = points->z;
-	data_rotate.angle_z = vars->angle_z;
-	x -= vars->mid_width;
-	x *= vars->scale;
-	y -= vars->mid_height;
-	y *= vars->scale;
-	z *= vars->scale;
-	data_rotate.x_rotate = x * cos(data_rotate.angle_z) - y
-		* sin(data_rotate.angle_z);
-	data_rotate.y_rotate = x * sin(data_rotate.angle_z) + y
-		* cos(data_rotate.angle_z);
-	data_rotate.iso_angle = vars->iso_angle;
-	proj->x = (data_rotate.x_rotate + data_rotate.y_rotate)
-		* cos(data_rotate.iso_angle) + vars->x_offset;
-	proj->y = (data_rotate.x_rotate - data_rotate.y_rotate)
-		* -sin(data_rotate.iso_angle) - z + vars->y_offset;
+	data_rotate.x = points->x - vars->mid_width;
+	data_rotate.y = points->y - vars->mid_height;
+	data_rotate.z = points->z;
+	data_rotate.x *= vars->scale;
+	data_rotate.y *= vars->scale;
+	data_rotate.z *= vars->scale;
+	rotate_x(&tmp_y, &tmp_z, &data_rotate, vars);
+	rotate_y(&tmp_x, &tmp_z, &data_rotate, vars);
+	rotate_z(&tmp_x, &tmp_y, &data_rotate, vars);
+	proj->x = (data_rotate.x - data_rotate.y) * cos(vars->iso_angle)
+		+ vars->x_offset;
+	proj->y = (data_rotate.x + data_rotate.y) * sin(vars->iso_angle)
+		- data_rotate.z + vars->y_offset;
 }
 
-void	rotate_y(t_point *points, t_vars *vars, t_point *proj)
+void	rotate_x(double *y, double *z, t_data_rotate *data_rotate, t_vars *vars)
 {
-	int				x;
-	int				y;
-	int				z;
-	t_data_rotate	data_rotate;
-
-	x = points->x;
-	y = points->y;
-	z = points->z;
-	data_rotate.angle_y = vars->angle_y;
-	x -= vars->mid_width;
-	x *= vars->scale;
-	y -= vars->mid_height;
-	y *= vars->scale;
-	z *= vars->scale;
-	data_rotate.x_rotate = x * cos(data_rotate.angle_y) + z
-		* sin(data_rotate.angle_y);
-	data_rotate.z_rotate = -x * sin(data_rotate.angle_y) + z
-		* cos(data_rotate.angle_y);
-	data_rotate.iso_angle = vars->iso_angle;
-	proj->x = (data_rotate.x_rotate - y) * cos(data_rotate.iso_angle)
-		+ vars->x_offset;
-	proj->y = (data_rotate.x_rotate + y) * sin(data_rotate.iso_angle)
-		- (data_rotate.z_rotate * vars->altitude) + vars->y_offset;
+	*y = data_rotate->y * cos(vars->angle_x) - data_rotate->z
+		* sin(vars->angle_x);
+	*z = data_rotate->y * sin(vars->angle_x) + data_rotate->z
+		* cos(vars->angle_x);
+	data_rotate->y = *y;
+	data_rotate->z = *z;
 }
 
-void	rotate_x(t_point *points, t_vars *vars, t_point *proj)
+void	rotate_y(double *x, double *z, t_data_rotate *data_rotate, t_vars *vars)
 {
-	int				x;
-	int				y;
-	int				z;
-	t_data_rotate	data_rotate;
+	*x = data_rotate->x * cos(vars->angle_y) + data_rotate->z
+		* sin(vars->angle_y);
+	*z = -data_rotate->x * sin(vars->angle_y) + data_rotate->z
+		* cos(vars->angle_y);
+	data_rotate->x = *x;
+	data_rotate->z = *z;
+}
 
-	x = points->x;
-	y = points->y;
-	z = points->z;
-	data_rotate.angle_x = vars->angle_x;
-	x -= vars->mid_width;
-	x *= vars->scale;
-	y -= vars->mid_height;
-	y *= vars->scale;
-	z *= vars->scale;
-	data_rotate.y_rotate = y * cos(data_rotate.angle_x) - z
-		* sin(data_rotate.angle_x);
-	data_rotate.z_rotate = y * sin(data_rotate.angle_x) + z
-		* cos(data_rotate.angle_x);
-	data_rotate.iso_angle = vars->iso_angle;
-	proj->x = (x - data_rotate.y_rotate) * cos(data_rotate.iso_angle)
-		+ vars->x_offset;
-	proj->y = (x + data_rotate.y_rotate) * sin(data_rotate.iso_angle)
-		- (data_rotate.z_rotate * vars->altitude) + vars->y_offset;
+void	rotate_z(double *x, double *y, t_data_rotate *data_rotate, t_vars *vars)
+{
+	*x = data_rotate->x * cos(vars->angle_z) - data_rotate->y
+		* sin(vars->angle_z);
+	*y = data_rotate->x * sin(vars->angle_z) + data_rotate->y
+		* cos(vars->angle_z);
+	data_rotate->x = *x;
+	data_rotate->y = *y;
 }
