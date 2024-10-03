@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:58:19 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 06:45:42 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 07:42:16 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	interpolate_color(int cor_initial, int cor_final, double t)
 
 int	get_color_from_altitude(int z, int z_min, int z_max)
 {
-	double ratio;
+	double	ratio;
 
 	if (z_max == z_min)
 		ratio = 1.0;
