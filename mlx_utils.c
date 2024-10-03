@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 21:06:34 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 07:16:52 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	init_vars(t_vars *vars)
 	vars->z_max = INT_MIN;
 	vars->rotate = 1;
 	vars->angle_z = 0.5236;
-        vars->altitude = 1;
+	vars->altitude = 1;
 }
 
 int	ft_close(t_vars *vars_mlx)
 {
-        ft_freematrix(vars_mlx->map, vars_mlx->height, vars_mlx->width);
+	ft_freematrix(vars_mlx->map, vars_mlx->height, vars_mlx->width);
 	mlx_destroy_image(vars_mlx->mlx, vars_mlx->img.img);
 	mlx_destroy_window(vars_mlx->mlx, vars_mlx->mlx_win);
 	mlx_destroy_display(vars_mlx->mlx);
