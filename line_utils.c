@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:02:07 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/02 11:35:51 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 07:37:25 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	draw_vertical_lines(t_vars *vars, t_point *new_point, t_point *p0,
 		t_point *p1)
 {
 	if (new_point->y < vars->height - 1 && vars->map[new_point->y
-		+ 1][new_point->x])
+			+ 1][new_point->x])
 	{
 		new_point->color = vars->map[new_point->y + 1][new_point->x][1];
 		new_point->z = vars->map[new_point->y + 1][new_point->x][0];
