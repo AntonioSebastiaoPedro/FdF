@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:27:45 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 15:37:20 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 07:51:04 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ int	ft_isspace(int c)
 	return (0);
 }
 
+void	ft_convert_digits(char *str, int i, int *res, int str_base)
+{
+	while (str[i] && ft_isvalid_digit(str[i], str_base))
+	{
+		*res *= str_base;
+		if (str[i] >= '0' && str[i] <= '9')
+			*res += str[i] - '0';
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			*res += str[i] - 'a' + 10;
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			*res += str[i] - 'A' + 10;
+		i++;
+	}
+}
+
 int	ft_atoi_base(const char *str, int str_base)
 {
 	int	res;
@@ -55,16 +70,6 @@ int	ft_atoi_base(const char *str, int str_base)
 		sign = -1;
 		i++;
 	}
-	while (str[i] && ft_isvalid_digit(str[i], str_base))
-	{
-		res *= str_base;
-		if (str[i] >= '0' && str[i] <= 9)
-			res += str[i] - '0';
-		else if (str[i] >= 'a' && str[i] <= 'f')
-			res += str[i] - 'a' + 10;
-		else if (str[i] >= 'A' && str[i] <= 'F')
-			res += str[i] - 'A' + 10;
-		i++;
-	}
+	ft_convert_digits((char *)str, i, &res, str_base);
 	return (res * sign);
 }
