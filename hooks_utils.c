@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:11:06 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/01 19:18:53 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:30:07 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,12 @@ int	zoom_object(int keycode, int x, int y, t_vars *vars)
 
 void	rotate_object(int keycode, t_vars *vars)
 {
-	if (keycode == ' ' || keycode == 65288)
-	{
-		if (keycode == ' ')
-			vars->angle_z += 0.1;
-		else
-			vars->angle_z -= 0.1;
-		vars->rotate = 1;
-	}
 	if (keycode == 'i' || keycode == 'o')
 	{
 		if (keycode == 'i')
-			vars->altitude += 0.1;
+			vars->angle_x += 0.1;
 		else
-			vars->altitude -= 0.1;
+			vars->angle_x -= 0.1;
 		vars->rotate = 2;
 	}
 	if (keycode == 'k' || keycode == 'l')
@@ -80,6 +72,14 @@ void	rotate_object(int keycode, t_vars *vars)
 		else
 			vars->angle_y -= 0.1;
 		vars->rotate = 3;
+	}
+	if (keycode == ' ' || keycode == 65288)
+	{
+		if (keycode == ' ')
+			vars->angle_z += 0.1;
+		else
+			vars->angle_z -= 0.1;
+		vars->rotate = 1;
 	}
 	update_map(vars);
 }
