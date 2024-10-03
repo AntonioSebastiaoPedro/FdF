@@ -1,4 +1,5 @@
-minilibx/
+
+minilibx/*
 *.o
 */*.o
 libft/libft.a
@@ -8,4 +9,3 @@ maps/
 fdf_linux
 fdf
 vscode/
-gitignore
