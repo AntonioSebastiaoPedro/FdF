@@ -1,5 +1,4 @@
-
-minilibx/*
+minilibx/
 *.o
 */*.o
 libft/libft.a
