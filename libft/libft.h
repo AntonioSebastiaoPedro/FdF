@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:32:38 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 10:21:38 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:27:07 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ long				ft_strtol(char *str, char **endptr, int base);
 int					hex_to_int(char *hex_str);
 void				ft_freearray(char **array, int pos);
 int					ft_abs(int n);
-void				ft_convert_digits(char *str, int i, long *res, int str_base);
+void				ft_convert_digits(char *str, int i, long *res,
+						int str_base);
 #endif
