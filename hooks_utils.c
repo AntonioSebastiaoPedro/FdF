@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:11:06 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 10:30:07 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:38:06 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,12 @@ void	transate_object(int keycode, t_vars *vars)
 
 void	change_altitude_object(int keycode, t_vars *vars)
 {
-	if (keycode == ' ' || keycode == 65288)
-	{
-		if (keycode == ' ')
-			vars->angle_z += 0.1;
-		else
-			vars->angle_z -= 0.1;
-		vars->rotate = 1;
-		update_map(vars);
-	}
+	if (keycode == 'z')
+		vars->altitude += 0.1;
+	else
+		vars->altitude -= 0.1;
+	vars->rotate = 1;
+	update_map(vars);
 }
 
 int	zoom_object(int keycode, int x, int y, t_vars *vars)

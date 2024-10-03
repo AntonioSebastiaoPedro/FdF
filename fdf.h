@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 07:16:07 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:00:49 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_vars
 	double	angle_x;
 	double	angle_y;
 	double	angle_z;
+        double        iso_angle;
 	int		x_offset;
 	int		y_offset;
 	int		***map;
