@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 12:22:07 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:25:15 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_vars(t_vars *vars)
 	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel,
 			&vars->img.line_length, &vars->img.endian);
 	vars->mid_height = vars->height / 2;
-	vars->mid_width = vars->width / 4;
+	vars->mid_width = vars->width / 2;
 	vars->scale = 1.0;
 	vars->x_offset = 0;
 	vars->y_offset = 0;
