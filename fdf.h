@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 06:53:59 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 07:16:07 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_vars
 	t_data	img;
 }			t_vars;
 
-typedef struct
+typedef struct s_bounds
 {
 	int		min_x;
 	int		max_x;
