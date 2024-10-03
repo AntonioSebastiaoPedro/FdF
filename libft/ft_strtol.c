@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:27:24 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 07:52:06 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:15:24 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ long	ft_strtol(char *str, char **endptr, int base)
 		signal = -1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	ft_convert_digits(str, i, &num, base);
+	ft_convert_digits(str, &i, &num, base);
 	*endptr = &str[i];
 	return (num * signal);
 }
