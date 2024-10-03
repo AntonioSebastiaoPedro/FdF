@@ -6,26 +6,22 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/02 11:27:38 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 08:50:18 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	***read_map(const char *file, int *height, int *width)
+static int	count_lines(const char *file, int *height)
 {
 	int		fd;
-	int		i;
 	char	*line;
-	int		***map;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
+		return (-1);
 	*height = 0;
 	line = get_next_line(fd);
-	if (!line)
-		return (NULL);
 	while (line)
 	{
 		free(line);
@@ -33,14 +29,24 @@ int	***read_map(const char *file, int *height, int *width)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	map = malloc(sizeof(int **) * (*height));
+	return (0);
+}
+
+static int	***fill_map(const char *file, int height, int *width)
+{
+	int		fd;
+	int		i;
+	char	*line;
+	int		***map;
+
+	map = malloc(sizeof(int **) * height);
 	if (!map)
 		return (NULL);
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
 	i = 0;
 	line = get_next_line(fd);
-	if (!line)
-		return (NULL);
 	while (line)
 	{
 		map[i++] = parse_line(line, width);
@@ -49,6 +55,13 @@ int	***read_map(const char *file, int *height, int *width)
 	}
 	close(fd);
 	return (map);
+}
+
+int	***read_map(const char *file, int *height, int *width)
+{
+	if (count_lines(file, height) < 0)
+		return (NULL);
+	return (fill_map(file, *height, width));
 }
 
 void	draw_map(t_vars *vars)
@@ -65,7 +78,9 @@ void	draw_map(t_vars *vars)
 		{
 			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
 				continue ;
-			vars->map[new_point.y][new_point.x][1] = get_color_from_altitude(vars->map[new_point.y][new_point.x][0],
+			vars->map[new_point.y][new_point.x][1] = \
+				get_color_from_altitude(
+					vars->map[new_point.y][new_point.x][0],
 					vars->z_min, vars->z_max);
 			new_point.color = vars->map[new_point.y][new_point.x][1];
 			new_point.z = vars->map[new_point.y][new_point.x][0];
