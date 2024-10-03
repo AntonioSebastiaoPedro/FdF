@@ -7,3 +7,5 @@ maps/
 .vscode
 fdf_linux
 fdf
+vscode/
+gitignore
