@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:03:36 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 10:45:14 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:52:02 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,7 @@ t_point	project_point(t_point *points, t_vars *vars)
 {
 	t_point	proj;
 
-	if (vars->rotate == 1)
-		rotate_z(points, vars, &proj);
-	else if (vars->rotate == 2)
-		rotate_x(points, vars, &proj);
-	else if (vars->rotate == 3)
-		rotate_y(points, vars, &proj);
+	rotate(points, vars, &proj);
 	proj.z = points->z;
 	proj.color = points->color;
 	return (proj);
