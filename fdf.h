@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 12:21:49 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:17:59 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_vars
 	int		mid_width;
 	int		mid_height;
 	int		rotate;
+
 	t_data	img;
 }			t_vars;
 
@@ -87,6 +88,7 @@ typedef struct s_bresenham
 	int		sy;
 	int		err;
 	int		e2;
+	int		step;
 }			t_bresenham;
 
 typedef struct s_colors
@@ -127,5 +129,7 @@ int			***read_map(const char *file, int *height, int *width);
 int			**parse_line(char *line, int *width);
 int			interpolate_color(int cor_initial, int cor_final, double t);
 int			get_color_from_altitude(int z, int z_min, int z_max);
+void		check_file(char *path_file);
+int			len_line_file(char *path_file);
 
 #endif

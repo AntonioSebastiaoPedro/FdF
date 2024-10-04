@@ -6,14 +6,14 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:58:19 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 07:42:16 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:47:00 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-#define LOW_COLOR 0xFFFFFFFF
-#define HIGH_COLOR 0xFFFFFFFF
+#define LOW_COLOR 0x000048
+#define HIGH_COLOR 0x006400
 
 int	interpolate_color(int cor_initial, int cor_final, double t)
 {

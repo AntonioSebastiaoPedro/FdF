@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:03:36 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 11:52:02 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:04:25 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,13 @@ t_bounds	get_projected_bounds(t_vars *vars)
 		new_point.x = 0;
 		while (new_point.x < vars->width)
 		{
-			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
-				continue ;
-			new_point.color = vars->map[new_point.y][new_point.x][1];
-			new_point.z = vars->map[new_point.y][new_point.x][0];
-			p = project_point(&new_point, vars);
-			update_bounds(&first, &bounds, &p);
+			if (vars->map[new_point.y] && vars->map[new_point.y][new_point.x])
+			{
+				new_point.color = vars->map[new_point.y][new_point.x][1];
+				new_point.z = vars->map[new_point.y][new_point.x][0];
+				p = project_point(&new_point, vars);
+				update_bounds(&first, &bounds, &p);
+			}
 			new_point.x++;
 		}
 		new_point.y++;

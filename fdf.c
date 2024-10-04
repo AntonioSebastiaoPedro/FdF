@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:58 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/02 11:31:11 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:47:26 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ int	main(int ac, char **av)
 	t_vars	vars;
 
 	if (ac != 2)
-		ft_puterror("Usage: ./fdf <file.fdf>\n", 2);
+		ft_puterror("Usage: ./fdf <file.fdf>\n", 1);
+	check_file(av[1]);
 	vars.map = read_map(av[1], &vars.height, &vars.width);
 	if (!vars.map)
-		ft_puterror("This map is invalid\n", 2);
+		ft_puterror("Invalid File\n", 1);
 	init_vars(&vars);
 	get_min_max_z(&vars);
 	calculate_scale(&vars);

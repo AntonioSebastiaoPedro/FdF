@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:11:06 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 10:38:06 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:49:05 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	change_altitude_object(int keycode, t_vars *vars)
 		vars->altitude += 0.1;
 	else
 		vars->altitude -= 0.1;
-	vars->rotate = 1;
 	update_map(vars);
 }
 
@@ -60,7 +59,7 @@ void	rotate_object(int keycode, t_vars *vars)
 			vars->angle_x += 0.1;
 		else
 			vars->angle_x -= 0.1;
-		vars->rotate = 2;
+		vars->rotate = 1;
 	}
 	if (keycode == 'k' || keycode == 'l')
 	{
@@ -68,7 +67,7 @@ void	rotate_object(int keycode, t_vars *vars)
 			vars->angle_y += 0.1;
 		else
 			vars->angle_y -= 0.1;
-		vars->rotate = 3;
+		vars->rotate = 1;
 	}
 	if (keycode == ' ' || keycode == 65288)
 	{

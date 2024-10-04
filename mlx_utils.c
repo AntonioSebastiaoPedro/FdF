@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/03 14:25:15 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:54:34 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_vars(t_vars *vars)
 	vars->y_offset = 0;
 	vars->z_min = INT_MAX;
 	vars->z_max = INT_MIN;
-	vars->rotate = 1;
+	vars->rotate = 0.0;
 	vars->iso_angle = 0.5236;
 	vars->altitude = 1;
 }
