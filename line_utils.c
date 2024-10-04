@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:02:07 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 19:23:24 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 21:40:12 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <string.h>
 
 #ifndef DEFAULT_COLOR
-# define DEFAULT_COLOR 0xFFFFDD
+# define DEFAULT_COLOR 0xFFFFEE
 #endif
 
 int	**parse_line(char *line, int *width)
