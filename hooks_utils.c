@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:11:06 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 19:26:32 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:24:55 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,14 @@ int	ft_hand_hook(int keycode, t_vars *vars)
 		rotate_object(keycode, vars);
 	if (keycode == 61 || keycode == 45)
 		zoom_object(keycode, 0, 0, vars);
+	if (keycode == 'a')
+	{
+		vars->color = 1;
+		update_map(vars);
+	}
 	if (keycode >= 65361 && keycode <= 65364)
 		transate_object(keycode, vars);
+	ft_putnbr_fd(keycode, 1);
+	ft_putstr_fd("\n", 1);
 	return (0);
 }

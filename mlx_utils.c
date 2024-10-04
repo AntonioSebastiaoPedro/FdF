@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 19:36:30 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:35:15 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	init_vars(t_vars *vars)
 	vars->y_offset = 0;
 	vars->z_min = INT_MAX;
 	vars->z_max = INT_MIN;
-	vars->rotate = 0.0;
+	vars->rotate = 0;
+	vars->color = 0;
 }
 
 int	ft_close(t_vars *vars_mlx)

@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:03:36 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 16:04:25 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:40:35 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ t_point	project_point(t_point *points, t_vars *vars)
 	t_point	proj;
 
 	rotate(points, vars, &proj);
-	proj.z = points->z;
-	proj.color = points->color;
 	return (proj);
 }
 

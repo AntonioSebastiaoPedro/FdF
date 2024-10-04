@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 19:07:16 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:59:05 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_vars
 	int		mid_width;
 	int		mid_height;
 	int		rotate;
+	int		color;
 
 	t_data	img;
 }			t_vars;

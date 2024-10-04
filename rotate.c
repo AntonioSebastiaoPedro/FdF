@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:44:00 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 11:56:45 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:43:13 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	rotate(t_point *points, t_vars *vars, t_point *proj)
 	proj->x = (data_rotate.x + data_rotate.y) * cos(vars->iso_angle)
 		+ vars->x_offset;
 	proj->y = (data_rotate.x - data_rotate.y) * sin(-vars->iso_angle)
-		- data_rotate.z + vars->y_offset;
+		- (data_rotate.z * vars->altitude) + vars->y_offset;
+	proj->z = points->z;
+	proj->color = points->color;
 }
 
 void	rotate_x(double *y, double *z, t_data_rotate *data_rotate, t_vars *vars)
