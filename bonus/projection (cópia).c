@@ -6,35 +6,17 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:03:36 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 23:16:46 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:40:35 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	project(t_point *points, t_vars *vars, t_point *proj)
-{
-	t_data_rotate	data_rotate;
-
-	data_rotate.x = points->x - vars->mid_width;
-	data_rotate.y = points->y - vars->mid_height;
-	data_rotate.z = points->z;
-	data_rotate.x *= vars->scale;
-	data_rotate.y *= vars->scale;
-	data_rotate.z *= vars->scale;
-	proj->x = (data_rotate.x + data_rotate.y) * cos(vars->iso_angle)
-		+ vars->x_offset;
-	proj->y = (data_rotate.x - data_rotate.y) * sin(-vars->iso_angle)
-		- (data_rotate.z) + vars->y_offset;
-	proj->z = points->z;
-	proj->color = points->color;
-}
-
 t_point	project_point(t_point *points, t_vars *vars)
 {
 	t_point	proj;
 
-	project(points, vars, &proj);
+	rotate(points, vars, &proj);
 	return (proj);
 }
 

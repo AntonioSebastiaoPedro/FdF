@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 23:10:08 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:59:05 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,22 @@ typedef struct s_vars
 	void	*mlx;
 	void	*mlx_win;
 	double	scale;
+	double	altitude;
+	double	angle_x;
+	double	angle_y;
+	double	angle_z;
 	double	iso_angle;
 	int		x_offset;
 	int		y_offset;
 	int		***map;
 	int		height;
 	int		width;
+	int		z_min;
+	int		z_max;
 	int		mid_width;
 	int		mid_height;
+	int		rotate;
+	int		color;
 
 	t_data	img;
 }			t_vars;
@@ -97,7 +105,13 @@ t_point		project_point(t_point *points, t_vars *vars);
 t_bounds	get_projected_bounds(t_vars *vars);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		init_vars(t_vars *vars);
-void		project(t_point *points, t_vars *vars, t_point *proj);
+void		rotate(t_point *points, t_vars *vars, t_point *proj);
+void		rotate_x(double *y, double *z, t_data_rotate *data_rotate,
+				t_vars *vars);
+void		rotate_y(double *x, double *z, t_data_rotate *data_rotate,
+				t_vars *vars);
+void		rotate_z(double *x, double *y, t_data_rotate *data_rotate,
+				t_vars *vars);
 void		get_min_max_z(t_vars *vars);
 void		ft_freematrix(int ***map, int rows, int cols);
 void		draw_map(t_vars *vars);
@@ -113,6 +127,8 @@ int			ft_hand_hook(int keycode, t_vars *vars);
 int			zoom_object(int keycode, int x, int y, t_vars *vars);
 int			***read_map(const char *file, int *height, int *width);
 int			**parse_line(char *line, int *width);
+int			interpolate_color(int cor_initial, int cor_final, double t);
+int			get_color_from_altitude(int z, int z_min, int z_max);
 void		check_file(char *path_file);
 int			len_line_file(char *path_file);
 

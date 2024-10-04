@@ -6,11 +6,35 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:54:08 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 23:09:26 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:55:05 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	get_min_max_z(t_vars *vars)
+{
+	int	z_atual;
+	int	i;
+	int	j;
+
+	i = 0;
+	z_atual = 0;
+	while (i < vars->height)
+	{
+		j = 0;
+		while (j < vars->width)
+		{
+			z_atual = vars->map[i][j][0];
+			if (z_atual < vars->z_min)
+				vars->z_min = z_atual;
+			if (z_atual > vars->z_max)
+				vars->z_max = z_atual;
+			j++;
+		}
+		i++;
+	}
+}
 
 void	calculate_scale(t_vars *vars)
 {

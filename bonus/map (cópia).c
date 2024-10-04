@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 22:58:50 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:37:44 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,44 @@ void	draw_map(t_vars *vars)
 	}
 }
 
+void	draw_map_color(t_vars *vars)
+{
+	t_point	p0;
+	t_point	p1;
+	t_point	new_point;
+
+	new_point.y = 0;
+	while (new_point.y < vars->height)
+	{
+		new_point.x = 0;
+		while (new_point.x < vars->width)
+		{
+			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
+				continue ;
+			vars->map[new_point.y][new_point.x][1] = \
+				get_color_from_altitude(
+					vars->map[new_point.y][new_point.x][0],
+					vars->z_min, vars->z_max);
+			new_point.color = vars->map[new_point.y][new_point.x][1];
+			new_point.z = vars->map[new_point.y][new_point.x][0];
+			p0 = project_point(&new_point, vars);
+			draw_horizontal_lines(vars, &new_point, &p0, &p1);
+			draw_vertical_lines(vars, &new_point, &p0, &p1);
+			new_point.x++;
+		}
+		new_point.y++;
+	}
+}
+
 void	update_map(t_vars *vars)
 {
 	mlx_destroy_image(vars->mlx, vars->img.img);
 	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
 	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel,
 			&vars->img.line_length, &vars->img.endian);
-	draw_map(vars);
+	if (vars->color == 1)
+		draw_map_color(vars);
+	else
+		draw_map(vars);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
 }

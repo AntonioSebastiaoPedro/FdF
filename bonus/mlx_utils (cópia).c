@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils.c                                        :+:      :+:    :+:   */
+/*   mlx_utils (cópia).c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 23:16:23 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 23:16:05 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,17 @@ void	init_vars(t_vars *vars)
 	vars->mid_height = vars->height / 2;
 	vars->mid_width = vars->width / 2;
 	vars->scale = 1.0;
+	vars->altitude = 1;
 	vars->iso_angle = 0.5236;
+	vars->angle_x = 0.0;
+	vars->angle_y = 0.0;
+	vars->angle_z = 0.0;
 	vars->x_offset = 0;
 	vars->y_offset = 0;
+	vars->z_min = INT_MAX;
+	vars->z_max = INT_MIN;
+	vars->rotate = 0;
+	vars->color = 0;
 }
 
 int	ft_close(t_vars *vars_mlx)
