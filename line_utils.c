@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:02:07 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 19:20:15 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:23:24 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	**parse_line(char *line, int *width)
 	{
 		row[i] = malloc(sizeof(int) * 2);
 		row[i][0] = ft_atoi(split[i]);
-		if (strchr(split[i], ','))
+		if (ft_strchr(split[i], ','))
 			row[i][1] = ft_strtol(ft_strchr(split[i], ',') + 1, NULL, 16);
 		else
 			row[i][1] = DEFAULT_COLOR;
