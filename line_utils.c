@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:02:07 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 16:02:44 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:20:15 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	**parse_line(char *line, int *width)
 	while (i < *width)
 	{
 		row[i] = malloc(sizeof(int) * 2);
-		row[i][0] = atoi(split[i]);
+		row[i][0] = ft_atoi(split[i]);
 		if (strchr(split[i], ','))
-			row[i][1] = strtol(strchr(split[i], ',') + 1, NULL, 16);
+			row[i][1] = ft_strtol(ft_strchr(split[i], ',') + 1, NULL, 16);
 		else
 			row[i][1] = DEFAULT_COLOR;
 		i++;
@@ -44,7 +44,6 @@ int	**parse_line(char *line, int *width)
 	ft_freearray(split, i);
 	return (row);
 }
-
 
 void	init_algo_vars(t_bresenham *alg, t_point *p0, t_point *p1)
 {

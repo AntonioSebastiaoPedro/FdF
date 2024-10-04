@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 14:17:59 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:07:16 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 

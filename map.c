@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 16:01:49 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:19:05 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	***fill_map(const char *file, int height, int *width)
 	return (map);
 }
 
-
 int	***read_map(const char *file, int *height, int *width)
 {
 	if (count_lines(file, height) < 0)
@@ -79,7 +78,9 @@ void	draw_map(t_vars *vars)
 		{
 			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
 				continue ;
-			vars->map[new_point.y][new_point.x][1] = get_color_from_altitude(vars->map[new_point.y][new_point.x][0],
+			vars->map[new_point.y][new_point.x][1] = \
+				get_color_from_altitude(
+					vars->map[new_point.y][new_point.x][0],
 					vars->z_min, vars->z_max);
 			new_point.color = vars->map[new_point.y][new_point.x][1];
 			new_point.z = vars->map[new_point.y][new_point.x][0];

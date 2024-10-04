@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 10:48:09 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 14:26:05 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:18:07 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	check_file(char *path_file)
 {
 	char	*extension;
-	int	len;
-	
+	int		len;
+
 	len = len_line_file(path_file);
 	extension = ft_strrchr(path_file, '.');
 	if (!extension || ft_strncmp(extension, ".fdf", 4))
@@ -29,13 +29,13 @@ void	check_file(char *path_file)
 
 int	len_line_file(char *path_file)
 {
-	int	fd;
+	int		fd;
 	int		len;
 	char	*line;
-	
+
 	fd = open(path_file, O_RDONLY);
 	if (fd < 0)
-		return(-1);
+		return (-1);
 	len = 0;
 	line = get_next_line(fd);
 	while (line)
