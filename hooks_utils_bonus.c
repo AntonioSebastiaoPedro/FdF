@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:11:06 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 08:33:20 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:58:57 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	zoom_object(int keycode, int x, int y, t_vars *vars)
 {
 	(void)x;
 	(void)y;
-	if ((keycode == 5 || keycode == 45))
+	if ((keycode == 5 || keycode == 45) && vars->scale / 0.79 >= 1)
 	{
 		vars->scale *= 0.79;
 		update_map(vars);
