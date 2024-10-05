@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 12:52:38 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 19:43:05 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,14 @@ void	draw_map(t_vars *vars)
 		new_point.x = 0;
 		while (new_point.x < vars->width)
 		{
-			if (!vars->map[new_point.y] || !vars->map[new_point.y][new_point.x])
-				continue ;
-			new_point.color = vars->map[new_point.y][new_point.x][1];
-			new_point.z = vars->map[new_point.y][new_point.x][0];
-			p0 = project_point(&new_point, vars);
-			draw_horizontal_lines(vars, &new_point, &p0, &p1);
-			draw_vertical_lines(vars, &new_point, &p0, &p1);
+			if (vars->map[new_point.y] && vars->map[new_point.y][new_point.x])
+			{
+				new_point.color = vars->map[new_point.y][new_point.x][1];
+				new_point.z = vars->map[new_point.y][new_point.x][0];
+				p0 = project_point(&new_point, vars);
+				draw_horizontal_lines(vars, &new_point, &p0, &p1);
+				draw_vertical_lines(vars, &new_point, &p0, &p1);
+			}
 			new_point.x++;
 		}
 		new_point.y++;

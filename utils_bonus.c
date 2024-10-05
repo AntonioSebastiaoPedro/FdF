@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:54:08 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 08:35:12 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 19:51:58 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@ void	get_min_max_z(t_vars *vars)
 		j = 0;
 		while (j < vars->width)
 		{
-			z_atual = vars->map[i][j][0];
-			if (z_atual < vars->z_min)
-				vars->z_min = z_atual;
-			if (z_atual > vars->z_max)
-				vars->z_max = z_atual;
+			if (vars->map[i] && vars->map[i][j])
+			{
+				z_atual = vars->map[i][j][0];
+				if (z_atual < vars->z_min)
+					vars->z_min = z_atual;
+				if (z_atual > vars->z_max)
+					vars->z_max = z_atual;
+			}
 			j++;
 		}
 		i++;
