@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 08:31:30 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:06:40 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void		rotate_z(double *x, double *y, t_data_rotate *data_rotate,
 void		get_min_max_z(t_vars *vars);
 void		ft_freematrix(int ***map, int rows, int cols);
 void		draw_map(t_vars *vars);
+void		draw_map_color(t_vars *vars);
 void		update_map(t_vars *vars);
 void		calculate_scale(t_vars *vars);
 void		draw_line(t_data *img, t_point p0, t_point p1);
