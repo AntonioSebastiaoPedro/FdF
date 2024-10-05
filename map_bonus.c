@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 09:05:56 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:55:54 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ void	update_map(t_vars *vars)
 	else
 		draw_map(vars);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.img, 0, 0);
+	put_instructions(vars);
 }

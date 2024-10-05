@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 09:06:40 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:55:38 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ int			interpolate_color(int cor_initial, int cor_final, double t);
 int			get_color_from_altitude(int z, int z_min, int z_max);
 void		check_file(char *path_file);
 int			len_line_file(char *path_file);
+void		put_instructions(t_vars *vars);
 
 #endif
