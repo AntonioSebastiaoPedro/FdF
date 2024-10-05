@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:56:50 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 22:58:50 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:23:29 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	count_lines(const char *file, int *height)
 {
 	int		fd;
+	// int		len_line;
 	char	*line;
 
 	fd = open(file, O_RDONLY);
@@ -22,6 +23,7 @@ static int	count_lines(const char *file, int *height)
 		return (-1);
 	*height = 0;
 	line = get_next_line(fd);
+	// len_line = 
 	while (line)
 	{
 		free(line);

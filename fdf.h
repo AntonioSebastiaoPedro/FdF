@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 08:22:43 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:03:55 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ int			***read_map(const char *file, int *height, int *width);
 int			**parse_line(char *line, int *width);
 void		check_file(char *path_file);
 int			len_line_file(char *path_file);
+int			check_wrong_lines(char *path_file);
 
 #endif
