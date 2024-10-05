@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf (cópia).h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 19:59:05 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 07:59:42 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct s_bresenham
 	int		sy;
 	int		err;
 	int		e2;
-	int		step;
 }			t_bresenham;
 
 typedef struct s_colors
