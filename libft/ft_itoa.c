@@ -6,12 +6,11 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:28:38 by ansebast          #+#    #+#             */
-/*   Updated: 2024/08/27 13:35:55 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:46:10 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	ft_countnbr(long nbr)
 {
