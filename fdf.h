@@ -6,7 +6,7 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 23:10:08 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 07:57:30 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
 # include <fcntl.h>
-# include <limits.h>
 # include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
