@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_file.c                                    :+:      :+:    :+:   */
+/*   validate_file_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 10:48:09 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 19:18:07 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:35:28 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 void	check_file(char *path_file)
 {

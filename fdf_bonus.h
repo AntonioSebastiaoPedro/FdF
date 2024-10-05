@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf (cópia).h                                      :+:      :+:    :+:   */
+/*   fdf_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:09:55 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/05 07:59:42 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:31:30 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#ifndef FDF_BONUS_H
+# define FDF_BONUS_H
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080

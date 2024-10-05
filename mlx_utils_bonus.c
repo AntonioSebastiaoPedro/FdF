@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils (cópia).c                                :+:      :+:    :+:   */
+/*   mlx_utils_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:56:43 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 23:16:05 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:34:17 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {

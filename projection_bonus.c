@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   projection.c                                       :+:      :+:    :+:   */
+/*   projection_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:03:36 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 20:40:35 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:34:41 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 t_point	project_point(t_point *points, t_vars *vars)
 {

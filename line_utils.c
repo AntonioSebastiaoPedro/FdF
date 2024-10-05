@@ -6,12 +6,11 @@
 /*   By: ansebast <ansebast@student.42luanda.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:02:07 by ansebast          #+#    #+#             */
-/*   Updated: 2024/10/04 21:40:12 by ansebast         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:33:42 by ansebast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <string.h>
 
 #ifndef DEFAULT_COLOR
 # define DEFAULT_COLOR 0xFFFFEE
